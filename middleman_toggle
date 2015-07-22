@@ -1,0 +1,24 @@
+#!/usr/bin/perl
+#mike.plexousakis@gmail.com
+my $proc = "bundle";
+my $params = "exec middleman server";
+my $masterProc = "ruby1.9.1";
+#my $pgrep = "pgrep";
+my $pidof = "pidof";
+my $kill = "kill";
+#my $who = getlogin || (getpwuid($<))[0] || "unknown";
+my $home = $ENV{HOME};
+#my $pid = qx($pgrep -u $who $proc);
+my $pid = qx($pidof $masterProc);
+if(($?/256) == 0){  # process already runs by user.
+  print "killing ".$proc." ".$params."...\n";
+  system("$kill -9 $pid");
+  sleep 1;
+  print "starting ".$proc." ".$params."...\n";
+  system("$proc $params &");
+}
+else{
+  print "starting ".$proc." ".$params."...\n";
+  system("$proc $params &");
+}
+exit 0;
