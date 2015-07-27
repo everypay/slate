@@ -7,9 +7,8 @@ language_tabs:
 
 toc_footers:
   - <a href='https://dashboard.everypay.gr/register' target='_blank'>Αποκτήστε τα δικά σας κλειδιά</a>
-  - <a href='https://www.everypay.gr/docs'>Πληροφορίες</a>
-  - <a href='https://www.everypay.gr/support'>Υποστήριξη</a>
-  - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
+  - <a href='https://www.everypay.gr/docs' target='_blank'>Πληροφορίες</a>
+  - <a href='https://www.everypay.gr/support' target='_blank'>Υποστήριξη</a>
 
 includes:
   - tokens
