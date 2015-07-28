@@ -15,7 +15,7 @@
 
 ```shell
 curl https://api.everypay.gr/tokens
-  -u pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8:
+  -u pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8
   -d amount=1099
   -d card_number=4242424242424242
   -d expiration_year=2016
@@ -31,7 +31,7 @@ require_once '../autoload.php';
 
 use 'Everypay\Everypay';
 
-Everypay::setApiKey('pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8:');
+Everypay::setApiKey('pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8');
 
 $params = array(
     'amount' => 1099
@@ -125,7 +125,7 @@ require_once '../autoload.php';
 
 use Everypay\Everypay;
 
-Everypay::setApiKey('pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8:');
+Everypay::setApiKey('pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8');
 
 $token_id = 'ctn_zUOwAdOqWe9BjQ86dYTWr13I';
 
@@ -189,19 +189,20 @@ PUBLIC KEY | Ναι | string(35) | Το δημόσιο κλειδί (ή το ι�
 {TOKEN_ID} | Ναι | string(28) | To id του token το οποίο μας ενδιαφέρει, μεταδίδεται απευθείας από τη διεύθυνση URL .
 
 
-### Τα πεδία του αντικειμένου Token
+## Τα πεδία του αντικειμένου Token
 
 
 **Πεδίο** | **Τύπος** | **Περιγραφή**
 ------|:-------------|----------
 token | string(28) | To μοναδικό αναγνωριστικό (ID) του Token.
-used | true / false | Δείκτης αν το Token αυτό έχει χρησιμοποιηθεί στο παρελθόν.
+is_used | true / false | Δείκτης αν το Token αυτό έχει χρησιμοποιηθεί στο παρελθόν.
 has_expired | true / false | Δείκτης αν το Token αυτό έχει ξεπεράσει το χρόνο ζωής του. Τα Tokens που τον έχουν ξεπεράσει δεν μπορούν να χρησιμοποιηθούν. 
-date_requested | string(255) | Ημερομηνία δημιουργίας του Token.
+amount | integer | Το ποσό της χρέωσης σε cents.
+date_created | string(255) | Ημερομηνία δημιουργίας του Token.
 card | json | Ένα [αντικείμενο κάρτας](#Τα-πεδία-του-αντικειμένου-κάρτας) (βλ.παρακάτω).
 
 
-### Τα πεδία του αντικειμένου κάρτας
+## Τα πεδία του αντικειμένου κάρτας
 
 
 **Πεδίο** | **Τύπος** | **Περιγραφή**

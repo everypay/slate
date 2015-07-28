@@ -7,42 +7,87 @@
 ## Δημιουργία Πελάτη με στοιχεία κάρτας
 
 
->Δημιουργία Πελάτη με τα στοιχεία της κάρτας.
+>Δημιουργία Πελάτη με τα στοιχεία της κάρτας και το ιδιωτικό κλειδί.
 
 
 ```shell
-curl https://api.everypay.gr/customers
-  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
-  -d card_number=4242424242424242
-  -d expiration_year=2015
-  -d expiration_month=04
-  -d email='cofounder@themail.com'
-  -d cvv=334
-  -d full_name="John Doe"
-  -d description="Club Member"
+curl https://api.everypay.gr/customers 
+ -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R 
+ -d card_number=4242424242424242 
+ -d expiration_year=2016 
+ -d expiration_month=05 
+ -d email='cofounder@themail.com' 
+ -d cvv=334 
+ -d holder_name="John Doe" 
+ -d description="Club Member" 
+```
+
+```php
+<?php
+require_once 'vendor/autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Customer;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$params = array(
+    'card_number' => '4242424242424242',
+    'expiration_year' => '2016',
+    'expiration_month' => '05',
+    'email' => 'cofounder@themail.com',
+    'cvv' => '334',
+    'holder_name' => 'John Doe',
+    'description' => 'Club Member'
+);
+
+$customer = Customer::create($params);
 ```
 
 
->Απάντηση σε JSON
+>Απάντηση σε JSON για curl ή Object για php
 
 
 ```shell
 {
-    "description": null,
+    "description": "Club Member",
     "email": "cofounder@themail.com",
-    "date_created": "06-12-2012 19:11:25",
-    "full_name": "John Doe",
-    "token": "cus_060e287a64410ca1e5cbccde9ad451da",
+    "date_created": "2015-07-28T10:51:12+0300",
+    "full_name": null,
+    "token": "cus_uVMLP6Ud06CkK3ZglkhHw7IH",
     "is_active": true,
-    "date_modified": "06-12-2012 19:11:25",
+    "date_modified": "2015-07-28T10:51:12+0300",
     "card": {
-        "expiration_month": "04",
-        "expiration_year": "2015",
+        "expiration_month": "05",
+        "expiration_year": "2016",
         "last_four": "4242",
         "type": "Visa",
-        "holder_name": null
+        "holder_name": "John Doe"
     }
 }
+```
+
+
+```php
+<?php
+stdClass Object
+(
+    [description] => Club Member
+    [email] => cofounder@themail.com
+    [date_created] => 2015-07-28T10:51:12+0300
+    [full_name] => 
+    [token] => cus_uVMLP6Ud06CkK3ZglkhHw7IH
+    [is_active] => 1
+    [date_modified] => 2015-07-28T10:51:12+0300
+    [card] => stdClass Object
+        (
+            [expiration_month] => 05
+            [expiration_year] => 2016
+            [last_four] => 4242
+            [type] => Visa
+            [holder_name] => John Doe
+        )
+)
 ```
 
 
@@ -58,60 +103,100 @@ curl https://api.everypay.gr/customers
 
 **Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
 ------|-------------|----------|----------
-SECRET KEY | Ναι | string(36) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
 card_number | Ναι | integer(16) | O αριθμός της κάρτας.
 holder_name | Ναι | string(255) | To όνομα κατόχου της κάρτας.
 expiration_year | Ναι |integer(4) | Έτος λήξης της κάρτας (4 ψηφία).
 expiration_month | Ναι | integer(2) | Μήνας λήξης της κάρτας (2 ψηφία).
 cvv | Ναι | integer(3) | Ο τριψήφιος κωδικός ασφαλείας στο πίσω μέρος της κάρτας.
 description | Όχι | string(255) | Μία σύντομη περιγραφή.
-full_name | Ναι | string(255) | Το όνομα του πελάτη.
 email | Όχι | string(100) | H διεύθυνση email του πελάτη.
+full_name | Όχι | string(255) | Το όνομα του πελάτη.
 
 
 
 ## Δημιουργία Πελάτη με χρήση Token
 
 
->Δημιουργία Πελάτη με χρήση Token.
+>Δημιουργία Πελάτη με χρήση Token και το ιδιωτικό κλειδί.
 
 
 ```shell
-curl https://api.everypay.gr/customers
-  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
-  -d token=crd_bed96ed62ad862659a9379b8a7decf7c 
-  -d full_name="John Doe"
+curl https://api.everypay.gr/customers   
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:   
+  -d token=ctn_zUOwAdOqWe9BjQ86dYTWr13I  
+  -d full_name="Smith Hill Co"
 ```
 
 
->Απάντηση σε JSON
+
+```php
+<?php
+require_once 'vendor/autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Customer;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$params = array(
+    'token' => 'ctn_zUOwAdOqWe9BjQ86dYTWr13I',
+    'full_name' => 'Smith Hill Co'
+);
+
+$customer = Customer::create($params);
+```
+
+>Απάντηση σε JSON για curl ή Object για php
 
 
 ```shell
 {
     "description": null,
-    "email": "cofounder@themail.com",
-    "date_created": "06-12-2012 19:11:25",
-    "full_name": "John Doe",
-    "token": "cus_060e287a64410ca1e5cbccde9ad451da",
+    "email": null,
+    "date_created": "2015-07-28T11:19:55+0300",
+    "full_name": "Smith Hill Co",
+    "token": "cus_b7QO01Ie4csrDAkRjXijK7aM",
     "is_active": true,
-    "date_modified": "06-12-2012 19:11:25",
+    "date_modified": "2015-07-28T11:19:55+0300",
     "card": {
-        "expiration_month": "04",
-        "expiration_year": "2015",
+        "expiration_month": "05",
+        "expiration_year": "2016",
         "last_four": "4242",
         "type": "Visa",
-        "holder_name": null
+        "holder_name": "John Doe"
     }
 }
+```
+
+```php
+<?php
+stdClass Object
+(
+    [description] => 
+    [email] => 
+    [date_created] => 2015-07-28T11:19:55+0300
+    [full_name] => Smith Hill Co
+    [token] => cus_b7QO01Ie4csrDAkRjXijK7aM
+    [is_active] => 1
+    [date_modified] => 2015-07-28T11:19:55+0300
+    [card] => stdClass Object
+        (
+            [expiration_month] => 05
+            [expiration_year] => 2016
+            [last_four] => 4242
+            [type] => Visa
+            [holder_name] => John Doe
+        )
+)
 ```
 
 
    &nbsp;       |     &nbsp;
 --------|--------------------------------
-**URL** |     https://api.everypay.gr/customers
+**URL** | https://api.everypay.gr/customers
 **Μέθοδος** | POST
-**Περιγραφή** |     Δημιουργεί ένα νέο αντικείμενο Πελάτη όπως παραπάνω, με τη διαφορά οτι τα στοιχεία της κάρτας δίνονται μέσω ενός προδημιουργημένου Token.
+**Περιγραφή** |  Δημιουργεί ένα νέο αντικείμενο Πελάτη όπως παραπάνω, με τη διαφορά οτι τα στοιχεία της κάρτας δίνονται μέσω ενός προδημιουργημένου [Token κάρτας](#Δημιουργία-Τoken) (βλ. παραπάνω).
 
 
 **Ορίσματα** 
@@ -119,26 +204,26 @@ curl https://api.everypay.gr/customers
 
 **Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
 ------|-------------|----------|----------
-SECRET KEY | Ναι | string(36) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
-token | Ναι | string(36) | To Token (αχρησιμοποίητο) που έχουμε δημιουργήσει για μία κάρτα.
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+token | Ναι | string(28) | To Token (αχρησιμοποίητο) που έχουμε δημιουργήσει για μία κάρτα.
 description | Όχι | string(255) | Μία σύντομη περιγραφή.
-full_name | Ναι | string(255) | Το όνομα του πελάτη.
+full_name | Όχι | string(255) | Το όνομα του πελάτη.
 email | Όχι | string(100) | H διεύθυνση email του πελάτη.
 
 
-### Τα πεδία του αντικειμένου Πελάτη
+## Τα πεδία του αντικειμένου Πελάτη
 
 
 **Πεδίο** | **Τύπος** | **Περιγραφή**
 ------|:-------------|----------
 description | string(255) / null | Η περιγραφή του πελάτη.
-email | string(255) / null | To email του πελάτη.
+email | string(100) / null | To email του πελάτη.
 date_created | string(255) | Η ημερομηνία δημιουργίας του πελάτη.
 full_name | string(255) | Το όνομα του πελάτη.
-token  | string(36) | Το μοναδικό αναγνωριστικό (ID) του πελάτη.
-is_active | true / false | Δέικτης εάν ο πελάτης είναι ενεργός.
+token  | string(35) | Το μοναδικό αναγνωριστικό (ID) του πελάτη.
+is_active | true / false | Δείκτης εάν ο πελάτης είναι ενεργός.
 date_modified | string(255) | Η ημερομηνία στην οποία άλλαξαν τελευταία φορά κάποια στοιχεία του πελάτη.
-card | | Ένα [αντικείμενο κάρτας](#Τα-πεδία-του-αντικειμένου-κάρτας) (βλ.παραπάνω) συσχετισμένο με τον πελάτη.
+card | json | Ένα [αντικείμενο κάρτας](#Τα-πεδία-του-αντικειμένου-κάρτας) (βλ.παραπάνω) συσχετισμένο με τον πελάτη.
 
 
 ## Ανάκτηση πελάτη
@@ -148,31 +233,71 @@ card | | Ένα [αντικείμενο κάρτας](#Τα-πεδία-του-α
 
 
 ```shell
-curl https://api.everypay.gr/customers/cus_060e287a64410ca1e5cbccde9ad451da 
+curl https://api.everypay.gr/customers/cus_b7QO01Ie4csrDAkRjXijK7aM 
     -u 'sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:'
 ```
 
 
->Απάντηση σε JSON
+```php
+<?php
+require_once 'vendor/autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Customer;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$params = array(
+    'token' => 'cus_b7QO01Ie4csrDAkRjXijK7aM'
+);
+
+$customer = Customer::retrieve($params);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
 
 
 ```shell
 {
-    "description": "Boss's friend, keep happy!!!",
+    "description": null,
     "email": null,
-    "date_created": "06-12-2012 19:11:25",
-    "full_name": "John Doe",
-    "token": "cus_060e287a64410ca1e5cbccde9ad451da",
+    "date_created": "2015-07-28T11:19:55+0300",
+    "full_name": "Smith Hill Co",
+    "token": "cus_b7QO01Ie4csrDAkRjXijK7aM",
     "is_active": true,
-    "date_modified": "06-12-2012 19:11:25",
+    "date_modified": "2015-07-28T11:19:55+0300",
     "card": {
-        "expiration_month": "04",
-        "expiration_year": "2015",
+        "expiration_month": "05",
+        "expiration_year": "2016",
         "last_four": "4242",
         "type": "Visa",
-        "holder_name": null
+        "holder_name": "John Doe"
     }
 }
+```
+
+
+```php
+<?php
+stdClass Object
+(
+    [description] => 
+    [email] => 
+    [date_created] => 2015-07-28T11:19:55+0300
+    [full_name] => Smith Hill Co
+    [token] => cus_b7QO01Ie4csrDAkRjXijK7aM
+    [is_active] => 1
+    [date_modified] => 2015-07-28T11:19:55+0300
+    [card] => stdClass Object
+        (
+            [expiration_month] => 05
+            [expiration_year] => 2016
+            [last_four] => 4242
+            [type] => Visa
+            [holder_name] => John Doe
+        )
+)
 ```
 
 
@@ -188,23 +313,8 @@ curl https://api.everypay.gr/customers/cus_060e287a64410ca1e5cbccde9ad451da
 
 **Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
 ------|-------------|----------|----------
-SECRET KEY | Ναι | string(36) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
-{CUSTOMER_ID} | Ναι | string(36) | To id του πελάτη μεταδίδεται απευθείας από τη διεύθυνση URL.
-
-
-### Τα πεδία του αντικειμένου Πελάτη
-
-
-**Πεδίο** | **Τύπος** | **Περιγραφή**
-------|:-------------|----------
-description | string(255) / null | Η περιγραφή του πελάτη.
-email |	string(10) / null | To email του πελάτη
-date_created | string(255) | Η ημερομηνία δημιουργίας του πελάτη
-full_name | string(255) | Το όνομα του πελάτη
-token |	string(36) | Το μοναδικό αναγνωριστικό (ID) του πελάτη
-is_active | true / false | Δέικτης εάν ο πελάτης είναι ενεργός
-date_modified | string(255) | Η ημερομηνία στην οποία άλλαξαν τελευταία φορά κάποια στοιχεία του πελάτη
-card | | Ένα [αντικείμενο κάρτας](#Τα-πεδία-του-αντικειμένου-κάρτας) (βλ.παραπάνω) συσχετισμένο με τον πελάτη
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+{CUSTOMER_ID} | Ναι | string(28) | To id του πελάτη μεταδίδεται απευθείας από τη διεύθυνση URL.
 
 
 ## Επεξεργασία Πελάτη
@@ -221,7 +331,7 @@ curl https://api.everypay.gr/customers/cus_060e287a64410ca1e5cbccde9ad451da  -u 
 ```
 
 
->Απάντηση σε JSON
+>Απάντηση σε JSON για curl ή Object για php
 
 
 ```shell
