@@ -320,14 +320,35 @@ SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνετ
 ## Επεξεργασία Πελάτη
 
 
-> Ενημέρωση πελάτη
+> Επεξεργασία (ενημέρωση στοιχείων) πελάτη
 
 
 ```shell
-curl https://api.everypay.gr/customers/cus_060e287a64410ca1e5cbccde9ad451da  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+curl https://api.everypay.gr/customers/cus_b7QO01Ie4csrDAkRjXijK7aM  
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
   -X PUT
-  -d email="johnDoe@omail.com"
+  -d email="johnDoe@gmail.com"
   -d description="Fitch LiSP customer"
+```
+
+
+```php
+<?php
+require_once 'vendor/autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Customer;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$token = 'cus_b7QO01Ie4csrDAkRjXijK7aM';
+
+$params = array(
+    'email' => 'johnDoe@gmail.com',
+    'description' => 'Fitch LiSP customer'
+);
+
+$customer = Customer::update($token, $params);
 ```
 
 
@@ -337,21 +358,45 @@ curl https://api.everypay.gr/customers/cus_060e287a64410ca1e5cbccde9ad451da  -u 
 ```shell
 {
     "description": "Fitch LiSP customer",
-    "email": "johnDoe@omail.com",
-    "date_created": "06-12-2012 19:11:25",
-    "full_name": "John Doe",
-    "token": "cus_060e287a64410ca1e5cbccde9ad451da",
+    "email": "johnDoe@gmail.com",
+    "date_created": "2015-07-28T11:19:55+0300",
+    "full_name": "Smith Hill Co",
+    "token": "cus_b7QO01Ie4csrDAkRjXijK7aM",
     "is_active": true,
-    "date_modified": "06-12-2012 19:14:45",
+    "date_modified": "2015-07-30T08:00:12+0300",
     "card": {
-        "expiration_month": "12",
-        "expiration_year": "2012",
+        "expiration_month": "05",
+        "expiration_year": "2016",
         "last_four": "4242",
         "type": "Visa",
-        "holder_name": null
+        "holder_name": John Doe
     }
 }
 ```
+
+```php
+<?php
+stdClass Object
+(
+    [description] => Fitch LiSP customer
+    [email] => johnDoe@gmail.com
+    [date_created] => 2015-07-28T11:19:55+0300
+    [full_name] => Smith Hill Co
+    [token] => cus_b7QO01Ie4csrDAkRjXijK7aM
+    [is_active] => 1
+    [date_modified] => 2015-07-30T08:00:12+0300
+    [card] => stdClass Object
+        (
+            [expiration_month] => 05
+            [expiration_year] => 2016
+            [last_four] => 4242
+            [type] => Visa
+            [holder_name] => John Doe
+        )
+
+)
+```
+
 
    &nbsp;       |     &nbsp;
 --------|--------------------------------
@@ -365,7 +410,7 @@ curl https://api.everypay.gr/customers/cus_060e287a64410ca1e5cbccde9ad451da  -u 
 
 **Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
 ------|-------------|----------|----------
-SECRET KEY | Ναι | string(36) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
 card_number | Όχι | integer(16) | O αριθμός της κάρτας.
 holder_name | Όχι / Ναι | string(255) |	To όνομα κατόχου της κάρτας. Υποχρεωτικό στην περίπτωση που αλλάζετε και το card_number
 expiration_year | Όχι / Ναι | integer(4) |	Έτος λήξης της κάρτας (4 ψηφία). Υποχρεωτικό στην περίπτωση που αλλάζετε και το card_number.
@@ -374,7 +419,7 @@ cvv | Όχι / Ναι | integer(3) | Ο τριψήφιος κωδικός ασφ
 description | Όχι | string(255) | Μία σύντομη περιγραφή.
 full_name | Όχι | string(255) | Το όνομα του πελάτη.
 email | Όχι | string(100) | H διεύθυνση email του πελάτη.
-{CUSTOMER_ID} | Ναι | string(36) | To id του πελάτη μεταδίδεται απευθείας από τη διεύθυνση URL.
+{CUSTOMER_ID} | Ναι | string(28) | To id του πελάτη μεταδίδεται απευθείας από τη διεύθυνση URL.
 
 
 ## Διαγραφή Πελάτη
@@ -384,25 +429,54 @@ email | Όχι | string(100) | H διεύθυνση email του πελάτη.
 
 
 ```shell
-curl https://api.everypay.gr/customers/cus_060e287a64410ca1e5cbccde9ad451da 
+curl https://api.everypay.gr/customers/cus_b7QO01Ie4csrDAkRjXijK7aM
   -u 'sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:'
   -X DELETE
 ```
 
 
->Απάντηση σε JSON
+```php
+<?php
+require_once 'vendor/autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Customer;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$token = 'cus_b7QO01Ie4csrDAkRjXijK7aM';
+
+$customer = Customer::delete($token);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
 
 
 ```shell
 {
     "description": "Fitch LiSP customer",
-    "email": "johnDoe@omail.com",
-    "date_created": "06-12-2012 19:11:25",
-    "full_name": "John Doe",
-    "token": "cus_060e287a64410ca1e5cbccde9ad451da",
+    "email": "johnDoe@gmail.com",
+    "date_created": "2015-07-28T11:19:55+0300",
+    "full_name": "Smith Hill Co",
+    "token": "cus_b7QO01Ie4csrDAkRjXijK7aM",
     "is_active": false,
-    "date_modified": "06-12-2012 19:14:50"
+    "date_modified": "2015-07-31T10:35:47+0300"
 }
+```
+
+
+```php
+stdClass Object
+(
+    [description] => Fitch LiSP customer
+    [email] => johnDoe@gmail.com
+    [date_created] => 2015-07-28T11:19:55+0300
+    [full_name] => Smith Hill Co
+    [token] => cus_b7QO01Ie4csrDAkRjXijK7aM
+    [is_active] => 
+    [date_modified] => 2015-07-31T10:35:47+0300
+)
 ```
 
 
@@ -410,7 +484,7 @@ curl https://api.everypay.gr/customers/cus_060e287a64410ca1e5cbccde9ad451da
 --------|--------------------------------
 **URL** | https://api.everypay.gr/customers/{CUSTOMER_ID}
 **Μέθοδος** | DELETE
-**Περιγραφή** |     Διαγραφή ενός αντικειμένου πελάτη. Λόγω θεμάτων ασφαλείας, το αντικείμενο ποτέ δεν διαγράφεται πραγματικά, αλλά γίνεται μόνιμα ανενεργό. Η διαδικασία αυτή είναι **ΜΗ** αναστρέψιμη.
+**Περιγραφή** |  Διαγραφή ενός αντικειμένου πελάτη. Λόγω θεμάτων ασφαλείας, το αντικείμενο ποτέ δεν διαγράφεται πραγματικά, αλλά γίνεται μόνιμα ανενεργό. Η διαδικασία αυτή είναι **ΜΗ** αναστρέψιμη.
 
 
 **Ορίσματα** 
@@ -418,8 +492,8 @@ curl https://api.everypay.gr/customers/cus_060e287a64410ca1e5cbccde9ad451da
 
 **Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
 ------|-------------|----------|----------
-SECRET KEY | Ναι | string(36) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
-{CUSTOMER_ID} | Ναι | string(36) | To id του πελάτη μεταδίδεται απευθείας από τη διεύθυνση URL.
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+{CUSTOMER_ID} | Ναι | string(28) | To id του πελάτη μεταδίδεται απευθείας από τη διεύθυνση URL.
 
 
 
@@ -436,43 +510,102 @@ curl "https://api.everypay.gr/customers?count=2&offset=1"
 ```
 
 
->Απάντηση σε JSON
+>Απάντηση σε JSON για curl ή Object για php
+>> Εδώ υπάρχουν 6 πελάτες στη βάση αλλά ζητάμε να δούμε μόνο τους 2.
 
 
 ```shell
 {
-    "description": "Fitch LiSP customer",
-    "email": "johnDoe@omail.com",
-    "date_created": "06-12-2012 19:10:36",
-    "full_name": "John Doe",
-    "token": "cus_060e287a64410ca1e5cbccde9ad451da",
-    "is_active": true,
-    "date_modified": "06-12-2012 19:10:36",
-    "card": {
-        "expiration_month": "1",
-        "expiration_year": "2017",
-        "last_four": "4242",
-        "type": "Visa",
-        "holder_name": "John Doe"
-    }
-},
-{
-    "description": "Πελάτης 1",
-    "email": null,
-    "date_created": "06-12-2012 19:21:08",
-    "full_name": "Paul Graham",
-    "token": "cus_17c4307c02a73f39df4f10c0ca706631",
-    "is_active": true,
-    "date_modified": "06-12-2012 19:21:08",
-    "card": {
-        "expiration_month": "4",
-        "expiration_year": "2016",
-        "last_four": "4242",
-        "type": "Visa",
-        "holder_name": null
-    }
+    "total_count": 6,
+    "items": [
+        {
+            "description": "Fitch LiSP customer",
+            "email": "johnDoe@gmail.com",
+            "date_created": "2015-07-28T11:19:55+0300",
+            "full_name": "Smith Hill Co",
+            "token": "cus_b7QO01Ie4csrDAkRjXijK7aM",
+            "is_active": true,
+            "date_modified": "2015-07-30T08:00:12+0300",
+            "card": {
+                "expiration_month": "05",
+                "expiration_year": "2016",
+                "last_four": "4242",
+                "type": "Visa",
+                "holder_name": "John Doe"
+            }
+        },
+        {
+            "description": "Πελάτης 1",
+            "email": null,
+            "date_created": "2010-07-28T11:19:55+0300",
+            "full_name": "Paul Graham",
+            "token": "cus_17c4307c02a73f39df4f10c0",
+            "is_active": true,
+            "date_modified": "2010-07-28T11:19:55+0300",
+            "card": {
+                "expiration_month": "01",
+                "expiration_year": "2016",
+                "last_four": "1111",
+                "type": "Visa",
+                "holder_name": null
+            }
+        }
+    ]
 }
 ```
+
+```php
+<?php
+stdClass Object
+(
+    [total_count] => 6
+    [items] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [description] => Fitch LiSP customer
+                    [email] => johnDoe@gmail.com
+                    [date_created] => 2015-07-28T11:19:55+0300
+                    [full_name] => Smith Hill Co
+                    [token] => cus_b7QO01Ie4csrDAkRjXijK7aM
+                    [is_active] => 1
+                    [date_modified] => 2015-07-30T08:00:12+0300
+                    [card] => stdClass Object
+                        (
+                            [expiration_month] => 05
+                            [expiration_year] => 2016
+                            [last_four] => 4242
+                            [type] => Visa
+                            [holder_name] => John Doe
+                        )
+
+                )
+
+            [1] => stdClass Object
+                    (
+                        [description] => Πελάτης 1
+                        [email] => 
+                        [date_created] => 2010-07-28T11:19:55+0300
+                        [full_name] => Paul Graham
+                        [token] => cus_17c4307c02a73f39df4f10c0
+                        [is_active] => 1
+                        [date_modified] => 2010-07-28T11:19:55+0300
+                        [card] => stdClass Object
+                            (
+                                [expiration_month] => 01
+                                [expiration_year] => 2016
+                                [last_four] => 1111
+                                [type] => Visa
+                                [holder_name] => 
+                            )
+
+                    )
+
+        )
+
+)
+```
+
 
   &nbsp;       |     &nbsp;
 --------|--------------------------------
@@ -486,8 +619,8 @@ curl "https://api.everypay.gr/customers?count=2&offset=1"
 
 **Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
 ------|-------------|----------|----------
-SECRET KEY | Ναι | string(36) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
-count | Όχι | integer(4) | O αριθμός των εμφανιζόμενων αποτελεσμάτων. Δίνεται σαν παράμετρος στη διέυθυνση URL. Εάν δεν ορισθεί τότε λαμβάνεται η προκαθορισμένη τιμή που είναι 10.
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+count | Όχι | integer(4) | O αριθμός των εμφανιζόμενων αποτελεσμάτων. Δίνεται σαν παράμετρος στη διέυθυνση URL. Εάν δεν ορισθεί τότε λαμβάνεται η προκαθορισμένη τιμή που είναι 10. Ανώτερη τιμή είναι το 20.
 offset | Όχι | integer(4) | Ο αριθμός των πελατών μετά τους οποίους θα εμφανιστούν τα αποτελέσματα π.χ. για τους πελάτες που βρίσκονται από τη θέση 10 και μετά δηλώνουμε offset=9. Δίνεται σαν παράμετρος στη διέυθυνση URL. Η προκαθορισμένη τιμή είναι 0.
 date_from | Όχι | timestamp (integer) | H ημερομηνία πέραν της οποίας ζητάμε τους πελάτες π.χ. για πελάτες που δημιουργήθηκαν μετά από τις 01/10/2013 00:00:00, δίνουμε date_from=1380585600. Δίνεται σαν παράμετρος στη διεύθυνση URL.
 date_to | Όχι | timestamp (integer) | H ημερομηνία μέχρι την οποία ζητάμε τους πελάτες π.χ. για πελάτες που δημιουργήθηκαν πριν από τις 01/10/2013 00:00:00, δίνουμε date_to=1380585600. Δίνεται σαν παράμετρος στη διεύθυνση URL. 

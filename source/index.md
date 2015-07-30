@@ -13,6 +13,7 @@ toc_footers:
 includes:
   - tokens
   - customers
+  - payments
   - errors
 
 search: true
