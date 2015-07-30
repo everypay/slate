@@ -503,10 +503,28 @@ SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνετ
 > Λίστα Πελατών
 
 
-```curl
+```shell
 curl "https://api.everypay.gr/customers?count=2&offset=1"
   -D GET
   -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+```
+
+
+```php
+<?php
+require_once 'vendor/autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Customer;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$params = array(
+    'count' => 2,
+    'offset' => 1
+);
+
+$customer = Customer::listAll($params);
 ```
 
 
