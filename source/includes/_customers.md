@@ -12,7 +12,7 @@
 
 ```shell
 curl https://api.everypay.gr/customers 
- -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R 
+ -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
  -d card_number=4242424242424242 
  -d expiration_year=2016 
  -d expiration_month=05 
@@ -234,7 +234,7 @@ card | json | Ένα [αντικείμενο κάρτας](#Τα-πεδία-το
 
 ```shell
 curl https://api.everypay.gr/customers/cus_b7QO01Ie4csrDAkRjXijK7aM 
-    -u 'sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:'
+    -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
 ```
 
 
@@ -430,7 +430,7 @@ email | Όχι | string(100) | H διεύθυνση email του πελάτη.
 
 ```shell
 curl https://api.everypay.gr/customers/cus_b7QO01Ie4csrDAkRjXijK7aM
-  -u 'sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:'
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
   -X DELETE
 ```
 

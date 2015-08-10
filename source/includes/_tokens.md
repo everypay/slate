@@ -15,7 +15,7 @@
 
 ```shell
 curl https://api.everypay.gr/tokens
-  -u pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8
+  -u pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8:
   -d amount=1099
   -d card_number=4242424242424242
   -d expiration_year=2016
