@@ -42,12 +42,12 @@ $params = array(
     'holder_name'=>'John Doe'
 );
 
-$token = Everypay_Tokens::create($params);
+$token = Token::create($params);
 ?>
 ```
 
 
->Απάντηση σε JSON
+>Απάντηση σε JSON για curl ή Object για php
 
 
 ```shell
@@ -69,20 +69,24 @@ $token = Everypay_Tokens::create($params);
 
 
 ```php
-{
-    "token": "ctn_zUOwAdOqWe9BjQ86dYTWr13I",
-    "is_used": false,
-    "has_expired": false,
-    "amount": 1099,
-    "date_created": "2015-07-24T16:36:39+0300",
-    "card": {
-        "expiration_month": "05",
-        "expiration_year": "2016",
-        "last_four": "4242",
-        "type": "Visa",
-        "holder_name": "John Doe"
-    }
-}
+<?php
+stdClass Object
+(
+    [token] => ctn_zUOwAdOqWe9BjQ86dYTWr13I
+    [is_used] => 
+    [has_expired] => 
+    [amount] => 1099
+    [date_created] => 2015-07-24T16:36:39+0300
+    [card] => stdClass Object
+        (
+            [expiration_month] => 05
+            [expiration_year] => 2016
+            [last_four] => 4242
+            [type] => Visa
+            [holder_name] => John Doe
+        )
+
+)
 ```
 
 
@@ -129,7 +133,7 @@ Everypay::setApiKey('pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8');
 
 $token_id = 'ctn_zUOwAdOqWe9BjQ86dYTWr13I';
 
-$token = Everypay_Tokens::retrieve($token_id);
+$token = Token::retrieve($token_id);
 ?>
 ```
 
@@ -156,20 +160,24 @@ $token = Everypay_Tokens::retrieve($token_id);
 
 
 ```php
-{
-    "token": "ctn_zUOwAdOqWe9BjQ86dYTWr13I",
-    "is_used": false,
-    "has_expired": false,  
-    "amount": 1099,
-    "date_created": "2015-07-24T16:36:39+0300",
-    "card": {
-        "expiration_month": "05",
-        "expiration_year": "2016",
-        "last_four": "4242",
-        "type": "Visa",
-        "holder_name": "John Doe"
-    }
-}
+<?php
+stdClass Object
+(
+    [token] => ctn_zUOwAdOqWe9BjQ86dYTWr13I
+    [is_used] => 
+    [has_expired] => 
+    [amount] => 1099
+    [date_created] => 2015-07-24T16:36:39+0300
+    [card] => stdClass Object
+        (
+            [expiration_month] => 05
+            [expiration_year] => 2016
+            [last_four] => 4242
+            [type] => Visa
+            [holder_name] => John Doe
+        )
+
+)
 ```
 
 
