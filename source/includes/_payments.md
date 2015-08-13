@@ -370,3 +370,338 @@ token | Ναι | string(28) | To id του token κάρτας το οποίο μ
 description | Όχι | string(255) | Μία σύντομη περιγραφή.
 amount | Ναι | integer | Το ποσό της συναλλαγής σε cents (χωρίς σημεία στίξης π.χ. 1099 αντί 10,99).
 currency | Όχι | string(3) | Το νόμισμα της συναλλαγής (EUR)
+
+
+
+## Επιστροφή πληρωμής
+
+
+>Πλήρης επιστροφή πληρωμής, με το ιδιωτικό κλειδί.
+
+
+```shell
+curl https://api.everypay.gr/payments/refund/pmt_A71tLD12bKumsd8v3rv9BNsY 
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+  -X PUT
+```
+
+```php
+<?php
+require_once '../autoload.php';
+
+use 'Everypay\Everypay';
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+
+$token = 'pmt_A71tLD12bKumsd8v3rv9BNsY';
+
+$payment = Payment::refund($token);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "token": "pmt_A71tLD12bKumsd8v3rv9BNsY",
+    "date_created": "2015-08-11T11:54:46+0300",
+    "description": "Order #GGA-435167",
+    "currency": "EUR",
+    "status": "Refunded",
+    "amount": 1099,
+    "refund_amount": 1099,
+    "fee_amount": 0,
+    "payee_email": null,
+    "payee_phone": null,
+    "refunded": true,
+    "refunds": [
+        {
+            "token": "ref_S9alsjUsbGK3WJ2EUWhrLfhg",
+            "status": "Captured",
+            "date_created": "2015-08-13T12:58:07+0300",
+            "amount": 1099,
+            "fee_amount": 34,
+            "description": null
+        }
+    ],
+    "card": {
+        "expiration_month": "01",
+        "expiration_year": "2016",
+        "last_four": "1111",
+        "type": "Visa",
+        "holder_name": "John Doe"
+    }
+}
+```
+
+
+```php
+<?php
+stdClass Object
+(
+    [token] => pmt_A71tLD12bKumsd8v3rv9BNsY
+    [date_created] => 2015-08-11T11:54:46+0300
+    [description] => Order #GGA-435167
+    [currency] => EUR
+    [status] => Refunded
+    [amount] => 1099
+    [refund_amount] => 1099
+    [fee_amount] => 0
+    [payee_email] => 
+    [payee_phone] => 
+    [refunded] => 1
+    [refunds] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [token] => ref_S9alsjUsbGK3WJ2EUWhrLfhg
+                    [status] => Captured
+                    [date_created] => 2015-08-13T12:58:07+0300
+                    [amount] => 1099
+                    [fee_amount] => 34
+                    [description] => null
+                )
+
+        )
+
+    [card] => stdClass Object
+        (
+            [expiration_month] => 01
+            [expiration_year] => 2016
+            [last_four] => 1111
+            [type] => Visa
+            [holder_name] => John Doe
+        )
+
+)
+```
+
+
+>Μερική επιστροφή πληρωμής, με το ιδιωτικό κλειδί.
+
+
+```shell
+curl https://api.everypay.gr/payments/refund/pmt_hpb9nbsTa30uJ0eKjMcoyj9C
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+  -d amount=4122
+  -d description="price correction"
+  -X PUT
+```
+
+
+```php
+<?php
+require_once '../autoload.php';
+
+use 'Everypay\Everypay';
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+
+$token = 'pmt_hpb9nbsTa30uJ0eKjMcoyj9C';
+
+$params=array(
+    'amount' => 4122,
+    'description' => "price correction"
+);
+
+$payment = Payment::refund($token, params);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "token": "pmt_hpb9nbsTa30uJ0eKjMcoyj9C",
+    "date_created": "2015-07-30T15:26:16+0300",
+    "description": null,
+    "currency": "EUR",
+    "status": "Partially Refunded",
+    "amount": 7863,
+    "refund_amount": 4122,
+    "fee_amount": 92,
+    "payee_email": null,
+    "payee_phone": null,
+    "refunded": false,
+    "refunds": [
+        {
+            "token": "ref_HW0nq1rhoTEY7NmokHU7DgmT",
+            "status": "Captured",
+            "date_created": "2015-08-13T13:08:33+0300",
+            "amount": 4122,
+            "fee_amount": 91,
+            "description": "price correction"
+        }
+    ],
+    "card": {
+        "expiration_month": "01",
+        "expiration_year": "2016",
+        "last_four": "1111",
+        "type": "Visa",
+        "holder_name": "Test 1"
+    }
+}
+```
+
+```php
+<?phpstdClass Object
+(
+    [token] => pmt_hpb9nbsTa30uJ0eKjMcoyj9C
+    [date_created] => 2015-07-30T15:26:16+0300
+    [description] => 
+    [currency] => EUR
+    [status] => Partially Refunded
+    [amount] => 7863
+    [refund_amount] => 4122
+    [fee_amount] => 92
+    [payee_email] => 
+    [payee_phone] => 
+    [refunded] => 
+    [refunds] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [token] => ref_HW0nq1rhoTEY7NmokHU7DgmT
+                    [status] => Captured
+                    [date_created] => 2015-08-13T13:08:33+0300
+                    [amount] => 4122
+                    [fee_amount] => 91
+                    [description] => price correction
+                )
+
+        )
+
+    [card] => stdClass Object
+        (
+            [expiration_month] => 01
+            [expiration_year] => 2016
+            [last_four] => 1111
+            [type] => Visa
+            [holder_name] => Test 1
+        )
+
+)
+```
+
+
+&nbsp;       |     &nbsp;
+--------|--------------------------------
+**URL** |  https://api.everypay.gr/payments/refund/{PAYMENT}
+**Μέθοδος** | PUT
+**Περιγραφή** |  Εκτελεί επιστροφή ενός ποσού για μία συγκεκριμένη πληρωμή. Η επιστροφή μπορεί να είναι ολική ή μερική.
+
+
+**Ορίσματα** 
+
+
+**Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
+------|-------------|----------|----------
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+{PAYMENT} | Ναι | string(28) | To Token (id) της πληρωμής προς επιστροφή.
+amount | Όχι | integer | Το ποσό της συναλλαγής σε cents (χωρίς σημεία στίξης π.χ. 1099 αντί 10,99). **Εάν το ποσό δεν οριστεί τότε πραγματοποιείται επιστροφή όλου του ποσού.**
+description | Όχι | string(255) | Μία σύντομη περιγραφή.
+
+
+## Ανάκτηση πληρωμής
+
+
+>Ανάκτηση πληρωμής, με το ιδιωτικό κλειδί.
+
+
+```shell
+curl  https://api.everypay.gr/payments/pmt_CSntXIVynqIgkYicZlBVz52O
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+```
+
+
+```php
+<?php
+require_once '../autoload.php';
+
+use 'Everypay\Everypay';
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+
+$token = 'pmt_CSntXIVynqIgkYicZlBVz52O';
+
+$payment = Payment::retrieve($token);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "token": "pmt_CSntXIVynqIgkYicZlBVz52O",
+    "date_created": "2015-07-30T15:27:16+0300",
+    "description": null,
+    "currency": "EUR",
+    "status": "Captured",
+    "amount": 8912,
+    "refund_amount": 0,
+    "fee_amount": 206,
+    "payee_email": null,
+    "payee_phone": null,
+    "refunded": false,
+    "refunds": [],
+    "card": {
+        "expiration_month": "01",
+        "expiration_year": "2016",
+        "last_four": "1111",
+        "type": "Visa",
+        "holder_name": "Test 1"
+    }
+}
+```
+
+
+```php
+<?php
+stdClass Object
+(
+    [token] => pmt_CSntXIVynqIgkYicZlBVz52O
+    [date_created] => 2015-07-30T15:27:16+0300
+    [description] => 
+    [currency] => EUR
+    [status] => Captured
+    [amount] => 8912
+    [refund_amount] => 0
+    [fee_amount] => 206
+    [payee_email] => 
+    [payee_phone] => 
+    [refunded] => 
+    [refunds] => Array
+        (
+        )
+
+    [card] => stdClass Object
+        (
+            [expiration_month] => 01
+            [expiration_year] => 2016
+            [last_four] => 1111
+            [type] => Visa
+            [holder_name] => Test 1
+        )
+
+)
+```
+
+
+&nbsp;       |     &nbsp;
+--------|--------------------------------
+**URL** |  https://api.everypay.gr/payments/{PAYMENT}
+**Μέθοδος** | GET
+**Περιγραφή** | Επιστρέφει πληροφορίες για μία συγκεκριμένη πληρωμή.
+
+
+**Ορίσματα** 
+
+
+**Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
+------|-------------|----------|----------
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+{PAYMENT} | Ναι | string(28) | To Token (id) της πληρωμής προς αναζήτηση.
+
