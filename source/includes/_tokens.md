@@ -29,7 +29,7 @@ curl https://api.everypay.gr/tokens
 <?php
 require_once '../autoload.php';
 
-use 'Everypay\Everypay';
+use Everypay\Everypay;
 
 Everypay::setApiKey('pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8');
 

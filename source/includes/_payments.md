@@ -28,7 +28,7 @@ curl https://api.everypay.gr/payments
 <?php
 require_once '../autoload.php';
 
-use 'Everypay\Everypay';
+use Everypay\Everypay;
 
 Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
 
@@ -149,7 +149,7 @@ curl https://api.everypay.gr/payments
 <?php
 require_once '../autoload.php';
 
-use 'Everypay\Everypay';
+use Everypay\Everypay;
 
 Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
 
@@ -279,7 +279,7 @@ curl https://api.everypay.gr/payments
 <?php
 require_once '../autoload.php';
 
-use 'Everypay\Everypay';
+use Everypay\Everypay;
 
 Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
 
@@ -389,7 +389,7 @@ curl https://api.everypay.gr/payments/refund/pmt_A71tLD12bKumsd8v3rv9BNsY
 <?php
 require_once '../autoload.php';
 
-use 'Everypay\Everypay';
+use Everypay\Everypay;
 
 Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
 
@@ -494,7 +494,7 @@ curl https://api.everypay.gr/payments/refund/pmt_hpb9nbsTa30uJ0eKjMcoyj9C
 <?php
 require_once '../autoload.php';
 
-use 'Everypay\Everypay';
+use Everypay\Everypay;
 
 Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
 
@@ -620,7 +620,7 @@ curl  https://api.everypay.gr/payments/pmt_CSntXIVynqIgkYicZlBVz52O
 <?php
 require_once '../autoload.php';
 
-use 'Everypay\Everypay';
+use Everypay\Everypay;
 
 Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
 
