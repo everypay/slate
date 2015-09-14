@@ -6,16 +6,37 @@
 > Παράδειγμα δημιουργίας Token για κάρτα χωρίς το όνομα του κατόχου της.
 
 ```shell
-curl https://api.everypay.gr/tokens
-    -u sk_chgRcz8C2UvhytYlzEcS86KpAsHenMOG: 
-    -d card_number=4792730907163592 
+curl https://api.everypay.gr/payments
+    -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R: 
+    -d card_number=4242424242424242 
     -d expiration_year=2017
     -d expiration_month=06
     -d cvv=160
+    -d amount=3000
 ```
 
 
->Απάντηση σε JSON
+```php
+<?php
+require_once '../autoload.php';
+
+use Everypay\Everypay;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$params = array(
+    'card_number' => '4242424242424242',
+    'expiration_year' => '2017',
+    'expiration_month' => '06',
+    'cvv' => '160',
+    'amount' => '3000'
+);
+
+$payment = Payment::create($params);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
 
 
 ```shell
@@ -28,6 +49,20 @@ curl https://api.everypay.gr/tokens
 }
 ```
 
+
+```php
+<?php
+stdClass Object
+(
+    [error] => stdClass Object
+        (
+            [status] => 400
+            [code] => 20008
+            [message] => Card holder name is empty or too long (max. 255 chars).
+        )
+
+)
+```
 
 **Κωδικός Λάθους** | **Εξήγηση**
 ---------- | -------

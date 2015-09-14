@@ -24,7 +24,7 @@ curl https://api.everypay.gr/customers
 
 ```php
 <?php
-require_once 'vendor/autoload.php';
+require_once '../autoload.php';
 
 use Everypay\Everypay;
 use Everypay\Customer;
@@ -132,7 +132,7 @@ curl https://api.everypay.gr/customers
 
 ```php
 <?php
-require_once 'vendor/autoload.php';
+require_once '../autoload.php';
 
 use Everypay\Everypay;
 use Everypay\Customer;
@@ -240,7 +240,7 @@ curl https://api.everypay.gr/customers/cus_b7QO01Ie4csrDAkRjXijK7aM
 
 ```php
 <?php
-require_once 'vendor/autoload.php';
+require_once '../autoload.php';
 
 use Everypay\Everypay;
 use Everypay\Customer;
@@ -334,7 +334,7 @@ curl https://api.everypay.gr/customers/cus_b7QO01Ie4csrDAkRjXijK7aM
 
 ```php
 <?php
-require_once 'vendor/autoload.php';
+require_once '../autoload.php';
 
 use Everypay\Everypay;
 use Everypay\Customer;
@@ -437,7 +437,7 @@ curl https://api.everypay.gr/customers/cus_b7QO01Ie4csrDAkRjXijK7aM
 
 ```php
 <?php
-require_once 'vendor/autoload.php';
+require_once '../autoload.php';
 
 use Everypay\Everypay;
 use Everypay\Customer;
@@ -512,7 +512,7 @@ curl https://api.everypay.gr/customers?count=2&offset=1
 
 ```php
 <?php
-require_once 'vendor/autoload.php';
+require_once '../autoload.php';
 
 use Everypay\Everypay;
 use Everypay\Customer;

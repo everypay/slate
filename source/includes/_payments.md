@@ -29,8 +29,9 @@ curl https://api.everypay.gr/payments
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Payment;
 
-Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
 
 $params = array(
     'card_number' => '4111111111111111',
@@ -150,8 +151,9 @@ curl https://api.everypay.gr/payments
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Payment;
 
-Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
 
 $params = array(
     'token' => 'cus_uVMLP6Ud06CkK3ZglkhHw7IH',
@@ -280,8 +282,9 @@ curl https://api.everypay.gr/payments
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Payment;
 
-Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
 
 $params = array(
     'token' => 'ctn_7hPmP8611pqcTkVfDuCEuC2Y',
@@ -398,8 +401,9 @@ curl https://api.everypay.gr/payments
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Payment;
 
-Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
 
 $params = array(
     'card_number' => '4111111111111111',
@@ -522,8 +526,9 @@ curl https://api.everypay.gr/payments
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Payment;
 
-Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
 
 $params = array(
     'token' => 'ctn_7hPmP8611pqcTkVfDuCEuC2Y',
@@ -605,8 +610,9 @@ stdClass Object
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Payment;
 
-Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
 
 $params = array(
     'card_number' => '4111111111111111',
@@ -723,8 +729,9 @@ curl https://api.everypay.gr/payments/capture/pmt_5i8KHSpex63i1cjLVfOMMhIa
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Payment;
 
-Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
 
 $token = 'pmt_5i8KHSpex63i1cjLVfOMMhIa';
 
@@ -824,8 +831,9 @@ curl https://api.everypay.gr/payments/refund/pmt_A71tLD12bKumsd8v3rv9BNsY
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Payment;
 
-Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
 
 $token = 'pmt_A71tLD12bKumsd8v3rv9BNsY';
 
@@ -929,8 +937,9 @@ curl https://api.everypay.gr/payments/refund/pmt_hpb9nbsTa30uJ0eKjMcoyj9C
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Payment;
 
-Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
 
 $token = 'pmt_hpb9nbsTa30uJ0eKjMcoyj9C';
 
@@ -1055,8 +1064,9 @@ curl  https://api.everypay.gr/payments/pmt_CSntXIVynqIgkYicZlBVz52O
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Payment;
 
-Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:');
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
 
 $token = 'pmt_CSntXIVynqIgkYicZlBVz52O';
 

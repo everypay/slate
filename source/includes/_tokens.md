@@ -30,6 +30,7 @@ curl https://api.everypay.gr/tokens
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Token;
 
 Everypay::setApiKey('pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8');
 
@@ -128,6 +129,7 @@ curl https://api.everypay.gr/tokens/ctn_zUOwAdOqWe9BjQ86dYTWr13I
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Token;
 
 Everypay::setApiKey('pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8');
 
