@@ -507,6 +507,143 @@ currency | Όχι | string(3) | Το νόμισμα της συναλλαγής 
 capture | Όχι | boolean | 1: (προεπιλογή) ολοκληρώνεται κανονικά η πληρωμή. <br/>0: γίνεται προέγκριση πληρωμής και δέσμευση του ποσού. Σε τέτοια περίπτωση πρέπει να γίνει η τελική έγκριση της πληρωμής σε δεύτερο βήμα (βλ. [Έγκριση δεσμευμένης πληρωμής](#Έγκριση-δεσμευμένης-πληρωμής)).
 
 
+## Δέσμευση πληρωμής με χρέωση Πελάτη
+
+
+>1ο Βήμα: Δέσμευση πληρωμής με χρέωση Πελάτη, με το ιδιωτικό κλειδί. *(βλ. [2o Βήμα](#Έγκριση-δεσμευμένης-πληρωμής))*
+
+```shell
+curl https://api.everypay.gr/payments
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+  -d token=cus_WLACZa1ubdp86eT1uYn6GFRf
+  -d description="Rent September 2015"
+  -d amount=35000
+  -d capture=0
+```
+
+
+```php
+<?php
+require_once '../autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Payment;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$params = array(
+    'token' => 'cus_WLACZa1ubdp86eT1uYn6GFRf',
+    'description' => 'Rent September 2015',
+    'amount' => 35000,
+    'capture' => 0
+);
+
+$payment = Payment::create($params);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php. Η πληρωμή δημιουργείται με την κατάσταση προέγκρισης,
+και το ποσό της συναλλαγής είναι δεσμευμένο. Σε επόμενο βήμα πρέπει η πληρωμή να
+εγκριθεί από τον έμπορο.
+
+
+```shell
+{
+    "token": "pmt_yOW5N9ICrB8BT8yqu6VeeiVV",
+    "date_created": "2015-09-15T17:38:20+0300",
+    "description": "Rent September 2015",
+    "currency": "EUR",
+    "status": "Pre authorized",
+    "amount": 35000,
+    "refund_amount": 0,
+    "fee_amount": 860,
+    "payee_email": null,
+    "payee_phone": null,
+    "refunded": false,
+    "refunds": [],
+    "customer": {
+        "description": null,
+        "email": null,
+        "date_created": "2015-07-30T15:12:30+0300",
+        "full_name": null,
+        "token": "cus_WLACZa1ubdp86eT1uYn6GFRf",
+        "is_active": true,
+        "date_modified": "2015-09-15T17:38:20+0300",
+        "card": {
+            "expiration_month": "01",
+            "expiration_year": "2016",
+            "last_four": "1111",
+            "type": "Visa",
+            "holder_name": "Minas Kitsos"
+        }
+    }
+}
+
+```
+
+
+```php
+<?php
+stdClass Object
+(
+    [token] => pmt_yOW5N9ICrB8BT8yqu6VeeiVV
+    [date_created] => 2015-09-15T17:38:20+0300
+    [description] => Rent September 2015
+    [currency] => EUR
+    [status] => Pre authorized
+    [amount] => 35000
+    [refund_amount] => 0
+    [fee_amount] => 860
+    [payee_email] => 
+    [payee_phone] => 
+    [refunded] => 
+    [refunds] => Array
+        (
+        )
+
+    [customer] => stdClass Object
+        (
+            [description] => 
+            [email] => 
+            [date_created] => 2015-07-30T15:12:30+0300
+            [full_name] => 
+            [token] => cus_WLACZa1ubdp86eT1uYn6GFRf
+            [is_active] => 1
+            [date_modified] => 2015-09-15T17:38:20+0300
+            [card] => stdClass Object
+                (
+                    [expiration_month] => 01
+                    [expiration_year] => 2016
+                    [last_four] => 1111
+                    [type] => Visa
+                    [holder_name] => Minas Kitsos
+                )
+
+        )
+)
+```
+
+
+   &nbsp;       |     &nbsp;
+--------|--------------------------------
+**URL** |  https://api.everypay.gr/payments
+**Μέθοδος** | POST
+**Περιγραφή** | Εκτελεί χρέωση ως προέγκριση, με δέσμευση του ποσού, χρησιμοποιώντας ένα προδημιουργημένο αντικείμενο [Πελάτη](#Πελάτες). Απαιτείται η τελική έγκριση της πληρωμής (βλ. [2ο Βήμα](#Έγκριση-δεσμευμένης-πληρωμής)).
+
+
+**Ορίσματα** 
+
+
+**Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
+------|-------------|----------|----------
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+token | Ναι | string(28) |  Το id του πελάτη προς χρέωση.
+description | Όχι | string(255) | Μία σύντομη περιγραφή.
+amount | Ναι | integer | Το ποσό της συναλλαγής σε cents (χωρίς σημεία στίξης π.χ. 1099 αντί 10,99).
+currency | Όχι | string(3) | Το νόμισμα της συναλλαγής (EUR).
+capture | Όχι | boolean | 1: (προεπιλογή) ολοκληρώνεται κανονικά η πληρωμή. <br/>0: γίνεται προέγκριση πληρωμής και δέσμευση του ποσού. Σε τέτοια περίπτωση πρέπει να γίνει η τελική έγκριση της πληρωμής σε δεύτερο βήμα (βλ. [Έγκριση δεσμευμένης πληρωμής](#Έγκριση-δεσμευμένης-πληρωμής)).
+
+
 ## Δέσμευση πληρωμής με χρέωση Token Κάρτας
 
 
@@ -541,7 +678,9 @@ $payment = Payment::create($params);
 ```
 
 
->Απάντηση σε JSON για curl ή Object για php
+>Απάντηση σε JSON για curl ή Object για php. Η πληρωμή δημιουργείται με την κατάσταση προέγκρισης,
+και το ποσό της συναλλαγής είναι δεσμευμένο. Σε επόμενο βήμα πρέπει η πληρωμή να
+εγκριθεί από τον έμπορο.
 
 
 ```shell
@@ -600,103 +739,12 @@ stdClass Object
 )
 ```
 
-```shell
-
-```
-
-
-```php
-<?php
-require_once '../autoload.php';
-
-use Everypay\Everypay;
-use Everypay\Payment;
-
-Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
-
-$params = array(
-    'card_number' => '4111111111111111',
-    'expiration_year' => '2016',
-    'expiration_month' => '01',
-    'cvv' => '334',
-    'amount' => 1099,
-    'currency' => 'eur',
-    'description' => 'Order #GGA-435168',
-    'holder_name'=>'John Doe',
-    'capture' => 0
-);
-
-$payment = Payment::create($params);
-```
-
-
->Απάντηση σε JSON για curl ή Object για php. Η πληρωμή δημιουργείται με την κατάσταση προέγκρισης,
-και το ποσό της συναλλαγής είναι δεσμευμένο. Σε επόμενο βήμα πρέπει η πληρωμή να
-εγκριθεί από τον έμπορο.
-
-
-```shell
-{
-    "token": "pmt_5i8KHSpex63i1cjLVfOMMhIa",
-    "date_created": "2015-09-08T16:28:46+0300",
-    "description": "Order #GGA-435168",
-    "currency": "EUR",
-    "status": "Pre authorized",
-    "amount": 1099,
-    "refund_amount": 0,
-    "fee_amount": 46,
-    "payee_email": null,
-    "payee_phone": null,
-    "refunded": false,
-    "refunds": [],
-    "card": {
-        "expiration_month": "01",
-        "expiration_year": "2016",
-        "last_four": "1111",
-        "type": "Visa",
-        "holder_name": "John Doe"
-    }
-}
-```
-
-
-```php
-<?php
-stdClass Object
-(
-    [token] => pmt_5i8KHSpex63i1cjLVfOMMhIa
-    [date_created] => 2015-09-08T16:28:46+0300
-    [description] => Order #GGA-435168
-    [currency] => EUR
-    [status] => Pre authorized
-    [amount] => 1099
-    [refund_amount] => 0
-    [fee_amount] => 46
-    [payee_email] => 
-    [payee_phone] => 
-    [refunded] => 
-    [refunds] => Array
-        (
-        )
-
-    [card] => stdClass Object
-        (
-            [expiration_month] => 01
-            [expiration_year] => 2016
-            [last_four] => 1111
-            [type] => Visa
-            [holder_name] => John Doe
-        )
-
-)
-```
-
 
    &nbsp;       |     &nbsp;
 --------|--------------------------------
 **URL** |  https://api.everypay.gr/payments
 **Μέθοδος** | POST
-**Περιγραφή** | Εκτελεί χρέωση ως προέγκριση, με δέσμευση του ποσού, χρησιμοποιώντας χρησιμοποιώντας ένα προδημιουργημένο και αχρησιμοποίητο [Token](#Δημιουργία-Τoken) κάρτας. Απαιτείται η τελική έγκριση της πληρωμής (βλ. [2ο Βήμα](#Έγκριση-δεσμευμένης-πληρωμής)).
+**Περιγραφή** | Εκτελεί χρέωση ως προέγκριση, με δέσμευση του ποσού, χρησιμοποιώντας ένα προδημιουργημένο και αχρησιμοποίητο [Token](#Δημιουργία-Τoken) Κάρτας. Απαιτείται η τελική έγκριση της πληρωμής (βλ. [2ο Βήμα](#Έγκριση-δεσμευμένης-πληρωμής)).
 
 
 **Ορίσματα** 
@@ -715,7 +763,7 @@ capture | Όχι | boolean | 1: (προεπιλογή) ολοκληρώνετα�
 ## Έγκριση δεσμευμένης πληρωμής
 
 
->2ο Βήμα: Έγκριση δεσμευμένης πληρωμής, με το ιδιωτικό κλειδί. Είναι η ολοκλήρωση της συναλλαγής που είχε αρχίσει ως προέγκριση *(βλ. 1ο Βήμα [Κάρτα](#Δέσμευση-πληρωμής-με-χρέωση-Κάρτας) ή [Token Κάρτας](#Δέσμευση-πληρωμής-με-χρέωση-token-Κάρτας))*
+>2ο Βήμα: Έγκριση δεσμευμένης πληρωμής, με το ιδιωτικό κλειδί. Είναι η ολοκλήρωση της συναλλαγής που είχε αρχίσει ως προέγκριση *(βλ. 1ο Βήμα [Κάρτα](#Δέσμευση-πληρωμής-με-χρέωση-Κάρτας) ή [Token Κάρτας](#Δέσμευση-πληρωμής-με-χρέωση-token-Κάρτας) ή [Token Πελάτη](#Δέσμευση-πληρωμής-με-χρέωση-Πελάτη))*
 
 
 ```shell

@@ -21,6 +21,7 @@ curl https://api.everypay.gr/payments
 require_once '../autoload.php';
 
 use Everypay\Everypay;
+use Everypay\Payment;
 
 Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
 
