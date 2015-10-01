@@ -210,6 +210,158 @@ description | Όχι | string(255) | Μία σύντομη περιγραφή.
 full_name | Όχι | string(255) | Το όνομα του πελάτη.
 email | Όχι | string(100) | H διεύθυνση email του πελάτη.
 
+## Δημιουργία Πελάτη μέσω επιτυχής συναλλαγής.
+
+
+>Δημιουργία Πελάτη μέσω επιτυχής συναλλαγής.
+
+
+```shell
+curl https://api.everypay.gr/payments
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+  -d card_number=4111111111111111
+  -d expiration_year=2016
+  -d expiration_month=01
+  -d cvv=334
+  -d amount=100
+  -d currency=eur
+  -d description="Order #GGA-435167"
+  -d holder_name="John Doe"
+  -d create_customer="1"
+```
+
+
+```php
+<?php
+require_once '../autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Payment;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$params = array(
+    'card_number' => '4111111111111111',
+    'expiration_year' => '2016',
+    'expiration_month' => '01',
+    'cvv' => '334',
+    'amount' => 100,
+    'currency' => 'eur',
+    'description' => 'Order #GGA-435167',
+    'holder_name' => 'John Doe',
+    'create_customer' => '1'
+);
+
+$payment = Payment::create($params);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "token": "pmt_RyIwmVA2r8T3UMcMIvKcbxGE"
+    "date_created": "2015-08-21T17:57:02+0300",
+    "description": "Order #GGA-435167",
+    "currency": "EUR",
+    "status": "Captured",
+    "amount": 100,
+    "refund_amount": 0,
+    "fee_amount": 22,
+    "payee_email": null,
+    "payee_phone": null,
+    "refunded": false,
+    "refunds": [],
+    "customer": {
+        "card": {
+            "expiration_month": "01",
+            "expiration_year": "2016",
+            "holder_name": "John Doe",
+            "last_four": "1111",
+            "type": "Visa"
+        },
+        "date_created": "2015-08-21T17:57:02+0300",
+        "date_modified": "2015-08-21T17:57:02+0300",
+        "description": null,
+        "email": null,
+        "full_name": "John Doe",
+        "is_active": true,
+        "token": "cus_Hdv4aPIwIFfRh5Bo609HiaDo"
+    }
+}
+```
+
+
+```php
+<?php
+
+stdClass Object
+(
+    [token] => pmt_RyIwmVA2r8T3UMcMIvKcbxGE
+    [date_created] => 2015-08-21T17:57:02+0300
+    [description] => Order #GGA-435167
+    [currency] => EUR
+    [status] => Captured
+    [amount] => 100
+    [refund_amount] => 0
+    [fee_amount] => 22
+    [payee_email] => 
+    [payee_phone] => 
+    [refunded] => 
+    [refunds] => Array
+        (
+        )
+
+    [customer] => stdClass Object
+        (
+            [description] => 
+            [email] => 
+            [date_created] => 2015-08-21T17:57:02+0300
+            [full_name] => John Doe
+            [token] => cus_Hdv4aPIwIFfRh5Bo609HiaDo
+            [is_active] => 1
+            [date_modified] => 2015-08-21T17:57:02+0300
+            [card] => stdClass Object
+                (
+                    [expiration_month] => 01
+                    [expiration_year] => 2016
+                    [last_four] => 1111
+                    [type] => Visa
+                    [holder_name] => John Doe
+                )
+
+        )
+
+)
+```
+
+Η δημιουργία Πελάτη μπορεί να γίνει τόσο απο επιτυχή πληρωμή όσο και απο
+πρέγκριση μιας πληρωμής.
+
+   &nbsp;       |     &nbsp;
+--------|--------------------------------
+**URL** |  https://api.everypay.gr/payments
+**Μέθοδος** | POST
+**Περιγραφή** | Εκτελεί χρέωση χρησιμοποιώντας τα δηλωθέντα στοιχεία μιας κάρτας και ταυτόχρονη δημιουργία Πελάτη.
+
+
+**Ορίσματα** 
+
+
+**Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
+------|-------------|----------|----------
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+card_number | Ναι | integer(16) | O αριθμός της κάρτας.
+holder_name | Ναι | string(255) | To όνομα κατόχου της κάρτας.
+expiration_year | Ναι | integer(4) | Έτος λήξης της κάρτας (4 ψηφία).
+expiration_month | Ναι | integer(2) |Μήνας λήξης της κάρτας (2 ψηφία).
+cvv | Ναι | integer(3) | Ο τριψήφιος κωδικός ασφαλείας στο πίσω μέρος της κάρτας.
+amount | Ναι | integer | Το ποσό της συναλλαγής σε cents (χωρίς σημεία στίξης π.χ. 1099 αντί 10,99).
+description | Όχι | string(255) | Μία σύντομη περιγραφή.
+currency | Όχι | string(3) | Το νόμισμα της συναλλαγής (EUR)
+create_customer | Όχι | integer(1) | Αν θα πρέπει να δημιουργηθεί Πελάτης (1) ή όχι (0)
+
 
 ## Τα πεδία του αντικειμένου Πελάτη
 

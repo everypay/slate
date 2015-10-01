@@ -14,7 +14,6 @@ includes:
   - tokens
   - customers
   - payments
-  - keys
   - errors
 
 search: true
