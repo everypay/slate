@@ -63,7 +63,9 @@ $token = Token::create($params);
         "expiration_year": "2016",
         "last_four": "4242",
         "type": "Visa",
-        "holder_name": "John Doe"
+        "holder_name": "John Doe",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -85,6 +87,92 @@ stdClass Object
             [last_four] => 4242
             [type] => Visa
             [holder_name] => John Doe
+            [supports_installments] => 
+            [max_installments] => 0
+        )
+
+)
+```
+
+>Δημιουργία Token κάρτας που υποστηρίζει δόσεις, με το δημόσιο κλειδί.
+
+
+```shell
+curl https://api.everypay.gr/tokens
+  -u pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8:
+  -d amount=10000
+  -d card_number=4908440000000003
+  -d expiration_year=2016
+  -d expiration_month=08
+  -d cvv=123
+  -d holder_name="John Doe"
+```
+
+
+```php
+<?php
+require_once '../autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Token;
+
+Everypay::setApiKey('pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8');
+
+$params = array(
+    'amount' => 10000
+    'card_number' => '4908440000000003',
+    'expiration_year' => '2016',
+    'expiration_month' => '08',
+    'cvv' => '123',
+    'holder_name'=>'John Doe'
+);
+
+$token = Token::create($params);
+?>
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "token": "ctn_zUOwAdOqWe9BjQ86dYTWr13I",
+    "is_used": false,
+    "has_expired": false,
+    "amount": 10000,
+    "date_created": "2015-07-24T16:36:39+0300",
+    "card": {
+        "expiration_month": "08",
+        "expiration_year": "2016",
+        "last_four": "0003",
+        "type": "Visa",
+        "holder_name": "John Doe",
+        "supports_installments": true,
+        "max_installments": 3
+    }
+}
+```
+
+
+```php
+<?php
+stdClass Object
+(
+    [token] => ctn_zUOwAdOqWe9BjQ86dYTWr13I
+    [is_used] => 
+    [has_expired] => 
+    [amount] => 10000
+    [date_created] => 2015-07-24T16:36:39+0300
+    [card] => stdClass Object
+        (
+            [expiration_month] => 08
+            [expiration_year] => 2016
+            [last_four] => 0003
+            [type] => Visa
+            [holder_name] => John Doe
+            [supports_installments] => 1
+            [max_installments] => 3
         )
 
 )
@@ -155,7 +243,9 @@ $token = Token::retrieve($token_id);
         "expiration_year": "2016",
         "last_four": "4242",
         "type": "Visa",
-        "holder_name": "John Doe"
+        "holder_name": "John Doe",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -177,6 +267,8 @@ stdClass Object
             [last_four] => 4242
             [type] => Visa
             [holder_name] => John Doe
+            [supports_installments] => 
+            [max_installments] => 0
         )
 
 )
@@ -222,3 +314,5 @@ expiration_year | string(4) | Έτος λήξης της κάρτας.
 last_four | string(4) | Τα τελευταία 4 ψηφία της κάρτας.
 type | string(255) | Ο τύπος της κάρτας: "Visa", "Mastercard" κλπ.
 holder_name | string(255) | Το όνομα κατόχου της κάρτας.
+supports_installments | boolean |  Το αν υποστηρίζει ή όχι δόσεις η συγκεκριμένη κάρτα.
+max_installments | integer | Ο μέγιστος αριθμός των δόσεων που υποστηρίζει η συγκεκριμένη κάρτα. Αν δεν υποστηρίζει καθόλου δόσεις ο αριθμός είναι 0.

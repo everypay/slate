@@ -121,6 +121,9 @@ stdClass Object
 >Πληρωμή με χρέωση κάρτας και δόσεις, με το ιδιωτικό κλειδί.
 
 
+>>Εδώ ο πελάτης αιτείται το μέγιστο των δόσεων που υποστηρίζει η κάρτα του, δηλαδή 3. Θα μπορούσε να αιτειθεί από 0 έως 3.
+
+
 ```shell
 curl https://api.everypay.gr/payments
   -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
