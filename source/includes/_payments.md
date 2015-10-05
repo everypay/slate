@@ -65,12 +65,16 @@ $payment = Payment::create($params);
     "payee_phone": null,
     "refunded": false,
     "refunds": [],
+    "installments_count": 0,
+    "installments": [],
     "card": {
         "expiration_month": "01",
         "expiration_year": "2016",
         "last_four": "1111",
         "type": "Visa",
-        "holder_name": "John Doe"
+        "holder_name": "John Doe",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -95,6 +99,11 @@ stdClass Object
         (
         )
 
+    [installments_count] => 0
+    [installments] => Array
+        (
+        )
+
     [card] => stdClass Object
         (
             [expiration_month] => 01
@@ -102,6 +111,182 @@ stdClass Object
             [last_four] => 1111
             [type] => Visa
             [holder_name] => John Doe
+            [supports_installments] =>
+            [max_installments] => 0
+        )
+
+)
+```
+
+>Πληρωμή με χρέωση κάρτας και δόσεις, με το ιδιωτικό κλειδί.
+
+
+```shell
+curl https://api.everypay.gr/payments
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+  -d card_number=4908440000000003  
+  -d expiration_year=2016
+  -d expiration_month=08
+  -d cvv=123
+  -d amount=10480
+  -d currency=eur
+  -d description="Order #A-770"
+  -d holder_name="John Doe"
+  -d installments=3
+```
+
+
+```php
+<?php
+require_once '../autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Payment;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$params = array(
+    'card_number' => '4908440000000003',
+    'expiration_year' => '2016',
+    'expiration_month' => '08',
+    'cvv' => '123',
+    'amount' => 10480,
+    'currency' => 'eur',
+    'description' => 'Order #A-770',
+    'holder_name'=>'John Doe',
+    'installments' => '3'
+);
+
+$payment = Payment::create($params);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "token": "pmt_DdEFKTO2lhRZjIpgMcJqj899",
+    "date_created": "2015-10-05T17:37:41+0300",
+    "description": "Order #A-770",
+    "currency": "EUR",
+    "status": "Captured",
+    "amount": 10480,
+    "refund_amount": 0,
+    "fee_amount": 272,
+    "payee_email": null,
+    "payee_phone": null,
+    "refunded": false,
+    "refunds": [],
+    "installments_count": 3,
+    "installments": [
+        {
+            "token": "pmt_VFDPv5oBSq3ulnlamgKFSSaM",
+            "date_created": "2015-10-05T17:37:41+0300",
+            "due_date": "2015-10-06T21:00:00+0300",
+            "currency": "EUR",
+            "status": "Pending installment",
+            "amount": 3500,
+            "fee_amount": 104
+        },
+        {
+            "token": "pmt_GMFBFJ2z7EVhtN7HgmbVag6k",
+            "date_created": "2015-10-05T17:37:41+0300",
+            "due_date": "2015-11-05T21:00:00+0200",
+            "currency": "EUR",
+            "status": "Pending installment",
+            "amount": 3500,
+            "fee_amount": 104
+        },
+        {
+            "token": "pmt_ynvYNpYn5mn9VARuwB4ZbVXY",
+            "date_created": "2015-10-05T17:37:41+0300",
+            "due_date": "2015-12-07T21:00:00+0200",
+            "currency": "EUR",
+            "status": "Pending installment",
+            "amount": 3480,
+            "fee_amount": 104
+        }
+    ],
+    "card": {
+        "expiration_month": "08",
+        "expiration_year": "2016",
+        "last_four": "0003",
+        "type": "Visa",
+        "holder_name": "John Doe",
+        "supports_installments": true,
+        "max_installments": 3
+    }
+}
+```
+
+
+```php
+<?php
+stdClass Object
+(
+    [token] => pmt_DdEFKTO2lhRZjIpgMcJqj899
+    [date_created] => 2015-10-05T17:37:41+0300
+    [description] => Order #A-770
+    [currency] => EUR
+    [status] => Captured
+    [amount] => 10480
+    [refund_amount] => 0
+    [fee_amount] => 272
+    [payee_email] => 
+    [payee_phone] => 
+    [refunded] => 
+    [refunds] => Array
+        (
+        )
+
+    [installments_count] => 3
+    [installments] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [token] => pmt_VFDPv5oBSq3ulnlamgKFSSaM
+                    [date_created] => 2015-10-05T17:37:41+0300
+                    [due_date] => 2015-10-06T21:00:00+0300
+                    [currency] => EUR
+                    [status] => Pending installment
+                    [amount] => 3500
+                    [fee_amount] => 104
+                )
+
+            [1] => stdClass Object
+                (
+                    [token] => pmt_GMFBFJ2z7EVhtN7HgmbVag6k
+                    [date_created] => 2015-10-05T17:37:41+0300
+                    [due_date] => 2015-11-05T21:00:00+0200
+                    [currency] => EUR
+                    [status] => Pending installment
+                    [amount] => 3500
+                    [fee_amount] => 104
+                )
+
+            [2] => stdClass Object
+                (
+                    [token] => pmt_ynvYNpYn5mn9VARuwB4ZbVXY
+                    [date_created] => 2015-10-05T17:37:41+0300
+                    [due_date] => 2015-12-07T21:00:00+0200
+                    [currency] => EUR
+                    [status] => Pending installment
+                    [amount] => 3480
+                    [fee_amount] => 104
+                )
+
+        )
+
+    [card] => stdClass Object
+        (
+            [expiration_month] => 08
+            [expiration_year] => 2016
+            [last_four] => 0003
+            [type] => Visa
+            [holder_name] => John Doe
+            [supports_installments] => 1
+            [max_installments] => 3
         )
 
 )
@@ -129,6 +314,7 @@ cvv | Ναι | integer(3) | Ο τριψήφιος κωδικός ασφαλεί�
 amount | Ναι | integer | Το ποσό της συναλλαγής σε cents (χωρίς σημεία στίξης π.χ. 1099 αντί 10,99).
 currency | Όχι | string(3) | Το νόμισμα της συναλλαγής (EUR)
 description | Όχι | string(255) | Μία σύντομη περιγραφή.
+installments | Όχι | integer | Ο αριθμός των δόσεων που αιτείται ο ιδιοκτήτης της κάρτας.
 
 
 ##Πληρωμή με χρέωση Πελάτη
@@ -182,6 +368,8 @@ $payment = Payment::create($params);
     "payee_phone": null,
     "refunded": false,
     "refunds": [],
+    "installments_count": 0,
+    "installments": [],
     "customer": {
         "description": "Club Member",
         "email": "cofounder@themail.com",
@@ -195,7 +383,9 @@ $payment = Payment::create($params);
             "expiration_year": "2016",
             "last_four": "4242",
             "type": "Visa",
-            "holder_name": "John Doe"
+            "holder_name": "John Doe",
+            "supports_installments": false,
+            "max_installments": 0
         }
     }
 }
@@ -221,6 +411,11 @@ stdClass Object
         (
         )
 
+    [installments_count] => 0
+    [installments] => Array
+        (
+        )
+
     [customer] => stdClass Object
         (
             [description] => Club Member
@@ -237,6 +432,8 @@ stdClass Object
                     [last_four] => 4242
                     [type] => Visa
                     [holder_name] => John Doe
+                    [supports_installments] =>
+                    [max_installments] => 0
                 )
 
         )
@@ -313,12 +510,16 @@ $payment = Payment::create($params);
     "payee_phone": null,
     "refunded": false,
     "refunds": [],
+    "installments_count": 0,
+    "installments": [],
     "card": {
         "expiration_month": "01",
         "expiration_year": "2016",
         "last_four": "1111",
         "type": "Visa",
-        "holder_name": "John Doe"
+        "holder_name": "John Doe",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -343,6 +544,11 @@ stdClass Object
         (
         )
 
+    [installments_count] => 0
+    [installments] => Array
+        (
+        )
+
     [card] => stdClass Object
         (
             [expiration_month] => 01
@@ -350,6 +556,8 @@ stdClass Object
             [last_four] => 1111
             [type] => Visa
             [holder_name] => John Doe
+            [supports_installments] =>
+            [max_installments] => 0
         )
 
 )
@@ -440,12 +648,16 @@ $payment = Payment::create($params);
     "payee_phone": null,
     "refunded": false,
     "refunds": [],
+    "installments_count": 0,
+    "installments": [],
     "card": {
         "expiration_month": "01",
         "expiration_year": "2016",
         "last_four": "1111",
         "type": "Visa",
-        "holder_name": "John Doe"
+        "holder_name": "John Doe",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -470,6 +682,11 @@ stdClass Object
         (
         )
 
+    [installments_count] => 0
+    [installments] => Array
+        (
+        )
+
     [card] => stdClass Object
         (
             [expiration_month] => 01
@@ -477,6 +694,8 @@ stdClass Object
             [last_four] => 1111
             [type] => Visa
             [holder_name] => John Doe
+            [supports_installments] =>
+            [max_installments] => 0
         )
 
 )
@@ -561,6 +780,8 @@ $payment = Payment::create($params);
     "payee_phone": null,
     "refunded": false,
     "refunds": [],
+    "installments_count": 0,
+    "installments": [],
     "customer": {
         "description": null,
         "email": null,
@@ -574,7 +795,9 @@ $payment = Payment::create($params);
             "expiration_year": "2016",
             "last_four": "1111",
             "type": "Visa",
-            "holder_name": "Minas Kitsos"
+            "holder_name": "Minas Kitsos",
+            "supports_installments": false,
+            "max_installments": 0
         }
     }
 }
@@ -601,6 +824,11 @@ stdClass Object
         (
         )
 
+    [installments_count] => 0
+    [installments] => Array
+        (
+        )
+
     [customer] => stdClass Object
         (
             [description] => 
@@ -617,6 +845,8 @@ stdClass Object
                     [last_four] => 1111
                     [type] => Visa
                     [holder_name] => Minas Kitsos
+                    [supports_installments] =>
+                    [max_installments] => 0
                 )
 
         )
@@ -697,12 +927,16 @@ $payment = Payment::create($params);
     "payee_phone": null,
     "refunded": false,
     "refunds": [],
+    "installments_count": 0,
+    "installments": [],
     "card": {
         "expiration_month": "01",
         "expiration_year": "2016",
         "last_four": "1111",
         "type": "Visa",
-        "holder_name": "John Doe"
+        "holder_name": "John Doe",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -727,6 +961,11 @@ stdClass Object
         (
         )
 
+    [installments_count] => 0
+    [installments] => Array
+        (
+        )
+
     [card] => stdClass Object
         (
             [expiration_month] => 01
@@ -734,6 +973,8 @@ stdClass Object
             [last_four] => 1111
             [type] => Visa
             [holder_name] => John Doe
+            [supports_installments] =>
+            [max_installments] => 0
         )
 
 )
@@ -804,12 +1045,16 @@ $payment = Payment::capture($token);
     "payee_phone": null,
     "refunded": false,
     "refunds": [],
+    "installments_count": 0,
+    "installments": [],
     "card": {
         "expiration_month": "01",
         "expiration_year": "2016",
         "last_four": "1111",
         "type": "Visa",
-        "holder_name": "John Doe"
+        "holder_name": "John Doe",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -834,6 +1079,11 @@ stdClass Object
         (
         )
 
+    [installments_count] => 0
+    [installments] => Array
+        (
+        )
+
     [card] => stdClass Object
         (
             [expiration_month] => 01
@@ -841,6 +1091,8 @@ stdClass Object
             [last_four] => 1111
             [type] => Visa
             [holder_name] => John Doe
+            [supports_installments] =>
+            [max_installments] => 0
         )
 
 )
@@ -921,12 +1173,16 @@ $payment = Payment::refund($token);
             "description": null
         }
     ],
+    "installments_count": 0,
+    "installments": [],
     "card": {
         "expiration_month": "01",
         "expiration_year": "2016",
         "last_four": "1111",
         "type": "Visa",
-        "holder_name": "John Doe"
+        "holder_name": "John Doe",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -961,6 +1217,11 @@ stdClass Object
 
         )
 
+    [installments_count] => 0
+    [installments] => Array
+        (
+        )
+
     [card] => stdClass Object
         (
             [expiration_month] => 01
@@ -968,6 +1229,8 @@ stdClass Object
             [last_four] => 1111
             [type] => Visa
             [holder_name] => John Doe
+            [supports_installments] =>
+            [max_installments] => 0
         )
 
 )
@@ -1032,12 +1295,16 @@ $payment = Payment::refund($token, params);
             "description": "price correction"
         }
     ],
+    "installments_count": 0,
+    "installments": [],
     "card": {
         "expiration_month": "01",
         "expiration_year": "2016",
         "last_four": "1111",
         "type": "Visa",
-        "holder_name": "Test 1"
+        "holder_name": "Test 1",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -1070,6 +1337,11 @@ $payment = Payment::refund($token, params);
 
         )
 
+    [installments_count] => 0
+    [installments] => Array
+        (
+        )
+
     [card] => stdClass Object
         (
             [expiration_month] => 01
@@ -1077,6 +1349,8 @@ $payment = Payment::refund($token, params);
             [last_four] => 1111
             [type] => Visa
             [holder_name] => Test 1
+            [supports_installments] =>
+            [max_installments] => 0
         )
 
 )
@@ -1151,12 +1425,16 @@ $payment = Payment::retrieve($token);
     "payee_phone": null,
     "refunded": false,
     "refunds": [],
+    "installments_count": 0,
+    "installments": [],
     "card": {
         "expiration_month": "01",
         "expiration_year": "2016",
         "last_four": "1111",
         "type": "Visa",
-        "holder_name": "Test 1"
+        "holder_name": "Test 1",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -1181,6 +1459,11 @@ stdClass Object
         (
         )
 
+    [installments_count] => 0
+    [installments] => Array
+        (
+        )
+
     [card] => stdClass Object
         (
             [expiration_month] => 01
@@ -1188,6 +1471,8 @@ stdClass Object
             [last_four] => 1111
             [type] => Visa
             [holder_name] => Test 1
+            [supports_installments] =>
+            [max_installments] => 0
         )
 
 )
