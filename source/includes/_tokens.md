@@ -44,7 +44,6 @@ $params = array(
 );
 
 $token = Token::create($params);
-?>
 ```
 
 
