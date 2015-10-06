@@ -62,7 +62,9 @@ $customer = Customer::create($params);
         "expiration_year": "2016",
         "last_four": "4242",
         "type": "Visa",
-        "holder_name": "John Doe"
+        "holder_name": "John Doe",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -86,6 +88,8 @@ stdClass Object
             [last_four] => 4242
             [type] => Visa
             [holder_name] => John Doe
+            [supports_installments] => 
+            [max_installments] => 0
         )
 )
 ```
@@ -164,7 +168,9 @@ $customer = Customer::create($params);
         "expiration_year": "2016",
         "last_four": "4242",
         "type": "Visa",
-        "holder_name": "John Doe"
+        "holder_name": "John Doe",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -187,6 +193,8 @@ stdClass Object
             [last_four] => 4242
             [type] => Visa
             [holder_name] => John Doe
+            [supports_installments] => 
+            [max_installments] => 0
         )
 )
 ```
@@ -279,7 +287,9 @@ $payment = Payment::create($params);
             "expiration_year": "2016",
             "holder_name": "John Doe",
             "last_four": "1111",
-            "type": "Visa"
+            "type": "Visa",
+            "supports_installments": false,
+            "max_installments": 0
         },
         "date_created": "2015-08-21T17:57:02+0300",
         "date_modified": "2015-08-21T17:57:02+0300",
@@ -329,6 +339,8 @@ stdClass Object
                     [last_four] => 1111
                     [type] => Visa
                     [holder_name] => John Doe
+                    [supports_installments] => 
+                    [max_installments] => 0
                 )
 
         )
@@ -424,7 +436,9 @@ $customer = Customer::retrieve($params);
         "expiration_year": "2016",
         "last_four": "4242",
         "type": "Visa",
-        "holder_name": "John Doe"
+        "holder_name": "John Doe",
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -448,6 +462,8 @@ stdClass Object
             [last_four] => 4242
             [type] => Visa
             [holder_name] => John Doe
+            [supports_installments] => 
+            [max_installments] => 0
         )
 )
 ```
@@ -521,7 +537,9 @@ $customer = Customer::update($token, $params);
         "expiration_year": "2016",
         "last_four": "4242",
         "type": "Visa",
-        "holder_name": John Doe
+        "holder_name": John Doe,
+        "supports_installments": false,
+        "max_installments": 0
     }
 }
 ```
@@ -544,6 +562,8 @@ stdClass Object
             [last_four] => 4242
             [type] => Visa
             [holder_name] => John Doe
+            [supports_installments] => 
+            [max_installments] => 0
         )
 
 )
@@ -701,7 +721,9 @@ $customer = Customer::listAll($params);
                 "expiration_year": "2016",
                 "last_four": "4242",
                 "type": "Visa",
-                "holder_name": "John Doe"
+                "holder_name": "John Doe",
+                "supports_installments": false,
+                "max_installments": 0
             }
         },
         {
@@ -717,7 +739,9 @@ $customer = Customer::listAll($params);
                 "expiration_year": "2016",
                 "last_four": "1111",
                 "type": "Visa",
-                "holder_name": null
+                "holder_name": null,
+                "supports_installments": false,
+                "max_installments": 0
             }
         }
     ]
@@ -747,6 +771,8 @@ stdClass Object
                             [last_four] => 4242
                             [type] => Visa
                             [holder_name] => John Doe
+                            [supports_installments] => 
+                            [max_installments] => 0
                         )
 
                 )
@@ -766,7 +792,9 @@ stdClass Object
                                 [expiration_year] => 2016
                                 [last_four] => 1111
                                 [type] => Visa
-                                [holder_name] => 
+                                [holder_name] =>
+                                [supports_installments] => 
+                                [max_installments] => 0
                             )
 
                     )

@@ -128,7 +128,6 @@ $params = array(
 );
 
 $token = Token::create($params);
-?>
 ```
 
 
@@ -224,7 +223,6 @@ Everypay::setApiKey('pk_atFzbY3VB94gFFJ3FxArEWM8DpnuA1y8');
 $token_id = 'ctn_zUOwAdOqWe9BjQ86dYTWr13I';
 
 $token = Token::retrieve($token_id);
-?>
 ```
 
 
