@@ -176,7 +176,7 @@ $payment = Payment::create($params);
     "status": "Captured",
     "amount": 10480,
     "refund_amount": 0,
-    "fee_amount": 272,
+    "fee_amount": 312,
     "payee_email": null,
     "payee_phone": null,
     "refunded": false,
@@ -235,7 +235,7 @@ stdClass Object
     [status] => Captured
     [amount] => 10480
     [refund_amount] => 0
-    [fee_amount] => 272
+    [fee_amount] => 312
     [payee_email] => 
     [payee_phone] => 
     [refunded] => 
@@ -444,6 +444,178 @@ stdClass Object
 ```
 
 
+>Πληρωμή με χρέωση Πελάτη με δόσεις, με το ιδιωτικό κλειδί.
+
+
+>>Εδώ ο πελάτης αιτείται 2 δόσεις ενώ η κάρτα του υποστηρίζει περισσότερες.
+
+
+>>To Token Πελάτη που χρησιμοποιείται εδώ είχε δημιουργηθεί με παλαιότερη αίτηση (με το ιδιωτικό κλειδί του έμπορου) χωρίς προσδιορισμό τιμής.
+
+
+>>Στην παρούσα αίτηση προσδιορίζεται το ποσό των 98,00 €.
+
+
+```shell
+curl https://api.everypay.gr/payments
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+  -d token=cus_4nAug8BIZYs8fNceh4TfFDTl
+  -d amount=9800
+  -d installments=2
+```
+
+
+```php
+<?php
+require_once '../autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Payment;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$params = array(
+    'token' => 'cus_4nAug8BIZYs8fNceh4TfFDTl',
+    'amount' => 9800,
+    'installments' => 2
+);
+
+$payment = Payment::create($params);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "token": "pmt_AyFdxVkVNldLZAgiR9lpyMV4",
+    "date_created": "2015-10-08T18:21:39+0300",
+    "description": null,
+    "currency": "EUR",
+    "status": "Captured",
+    "amount": 9800,
+    "refund_amount": 0,
+    "fee_amount": 276,
+    "payee_email": null,
+    "payee_phone": null,
+    "refunded": false,
+    "refunds": [],
+    "installments_count": 2,
+    "installments": [
+        {
+            "token": "pmt_rEHLTxJ5ndux6SaLV7rdOuLO",
+            "date_created": "2015-10-08T18:21:39+0300",
+            "due_date": "2015-10-09T21:00:00+0300",
+            "currency": "EUR",
+            "status": "Pending installment",
+            "amount": 4900,
+            "fee_amount": 138
+        },
+        {
+            "token": "pmt_3I6xf438wr9SPGYToEMDXqLB",
+            "date_created": "2015-10-08T18:21:39+0300",
+            "due_date": "2015-11-09T21:00:00+0200",
+            "currency": "EUR",
+            "status": "Pending installment",
+            "amount": 4900,
+            "fee_amount": 138
+        }
+    ],
+    "customer": {
+        "description": "Club Member",
+        "email": "cofounder@themail.com",
+        "date_created": "2015-10-08T18:18:16+0300",
+        "full_name": null,
+        "token": "cus_4nAug8BIZYs8fNceh4TfFDTl",
+        "is_active": true,
+        "date_modified": "2015-10-08T18:21:39+0300",
+        "card": {
+            "expiration_month": "08",
+            "expiration_year": "2016",
+            "last_four": "0003",
+            "type": "Visa",
+            "holder_name": "John Doe",
+            "supports_installments": true,
+            "max_installments": 3
+        }
+    }
+}
+
+```
+
+
+```php
+<?php
+stdClass Object
+(
+    [token] => pmt_AyFdxVkVNldLZAgiR9lpyMV4
+    [date_created] => 2015-10-08T18:21:39+0300
+    [description] => 
+    [currency] => EUR
+    [status] => Captured
+    [amount] => 9800
+    [refund_amount] => 0
+    [fee_amount] => 276
+    [payee_email] => 
+    [payee_phone] => 
+    [refunded] => 
+    [refunds] => Array
+        (
+        )
+
+    [installments_count] => 2
+    [installments] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [token] => pmt_rEHLTxJ5ndux6SaLV7rdOuLO
+                    [date_created] => 2015-10-08T18:21:39+0300
+                    [due_date] => 2015-10-09T21:00:00+0300
+                    [currency] => EUR
+                    [status] => Pending installment
+                    [amount] => 4900
+                    [fee_amount] => 138
+                )
+
+            [1] => stdClass Object
+                (
+                    [token] => pmt_3I6xf438wr9SPGYToEMDXqLB
+                    [date_created] => 2015-10-08T18:21:39+0300
+                    [due_date] => 2015-11-09T21:00:00+0200
+                    [currency] => EUR
+                    [status] => Pending installment
+                    [amount] => 4900
+                    [fee_amount] => 138
+                )
+
+        )
+
+    [customer] => stdClass Object
+        (
+            [description] => Club Member
+            [email] => cofounder@themail.com
+            [date_created] => 2015-10-08T18:18:16+0300
+            [full_name] => 
+            [token] => cus_4nAug8BIZYs8fNceh4TfFDTl
+            [is_active] => 1
+            [date_modified] => 2015-10-08T18:21:39+0300
+            [card] => stdClass Object
+                (
+                    [expiration_month] => 08
+                    [expiration_year] => 2016
+                    [last_four] => 0003
+                    [type] => Visa
+                    [holder_name] => John Doe
+                    [supports_installments] => 1
+                    [max_installments] => 3
+                )
+
+        )
+)
+```
+
+
    &nbsp;       |     &nbsp;
 --------|--------------------------------
 **URL** |  https://api.everypay.gr/payments
@@ -461,6 +633,7 @@ token | Ναι | string(28) | Το id του πελάτη προς χρέωση.
 amount | Ναι | integer | Το ποσό της συναλλαγής σε cents (χωρίς σημεία στίξης π.χ. 1099 αντί 10,99).
 currency | Όχι | string(3) | Το νόμισμα της συναλλαγής (EUR)
 description | Όχι | string(255) | Μία σύντομη περιγραφή.
+installments | Όχι | integer | Ο αριθμός των δόσεων που αιτείται ο ιδιοκτήτης της κάρτας.
 
 
 ##Πληρωμή με χρήση Token Κάρτας
@@ -569,7 +742,9 @@ stdClass Object
 >Πληρωμή με χρήση Token Κάρτας με δόσεις, με το ιδιωτικό κλειδί.
 
 
->>Εδώ ο πελάτης αιτείται το 2 δόσεις ενώ η κάρτα του υποστηρίζει περισσότερες.
+>>Εδώ ο πελάτης αιτείται 2 δόσεις ενώ η κάρτα του υποστηρίζει περισσότερες.
+
+
 >>To Token Κάρτας που χρησιμοποιείται εδώ είχε δημιουργηθεί με παλαιότερη αίτηση (με το δημόσιο κλειδί του έμπορου) για ποσό 110,00 € και φυσικά δεν έχει ξαναχρησιμοποιηθεί.
 
 
@@ -728,7 +903,7 @@ token | Ναι | string(28) | To id του token κάρτας το οποίο μ
 amount | Ναι | integer | Το ποσό της συναλλαγής σε cents (χωρίς σημεία στίξης π.χ. 1099 αντί 10,99).
 currency | Όχι | string(3) | Το νόμισμα της συναλλαγής (EUR)
 description | Όχι| string(255) | Μία σύντομη περιγραφή.
-
+installments | Όχι | integer | Ο αριθμός των δόσεων που αιτείται ο ιδιοκτήτης της κάρτας.
 
 ## Δέσμευση πληρωμής με χρέωση Κάρτας
 
