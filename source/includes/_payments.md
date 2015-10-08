@@ -566,6 +566,150 @@ stdClass Object
 )
 ```
 
+>Πληρωμή με χρήση Token Κάρτας με δόσεις, με το ιδιωτικό κλειδί.
+
+
+>>Εδώ ο πελάτης αιτείται το 2 δόσεις ενώ η κάρτα του υποστηρίζει περισσότερες.
+>>To Token Κάρτας που χρησιμοποιείται εδώ είχε δημιουργηθεί με παλαιότερη αίτηση (με το δημόσιο κλειδί του έμπορου) για ποσό 110,00 € και φυσικά δεν έχει ξαναχρησιμοποιηθεί.
+
+
+```shell
+curl https://api.everypay.gr/payments
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+  -d token=ctn_8gkrUnDBxWccqiUs5MQFeMqs
+  -d installments=2
+```
+
+```php
+<?php
+require_once '../autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Payment;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$params = array(
+    'token' => 'ctn_8gkrUnDBxWccqiUs5MQFeMqs',
+    'amount' => 11000,
+    'installments' => 2
+);
+
+$payment = Payment::create($params);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "token": "pmt_hRwmZ8lrxub8dEVTsWfla9c5",
+    "date_created": "2015-10-08T17:01:21+0300",
+    "description": null,
+    "currency": "EUR",
+    "status": "Captured",
+    "amount": 11000,
+    "refund_amount": 0,
+    "fee_amount": 304,
+    "payee_email": null,
+    "payee_phone": null,
+    "refunded": false,
+    "refunds": [],
+    "installments_count": 2,
+    "installments": [
+        {
+            "token": "pmt_a39thWxpgOQ6oT9qfsnHmgMn",
+            "date_created": "2015-10-08T17:01:21+0300",
+            "due_date": "2015-10-09T21:00:00+0300",
+            "currency": "EUR",
+            "status": "Pending installment",
+            "amount": 5500,
+            "fee_amount": 152
+        },
+        {
+            "token": "pmt_EJ4DmmSHP2hiCCiRgDtqOi3i",
+            "date_created": "2015-10-08T17:01:21+0300",
+            "due_date": "2015-11-09T21:00:00+0200",
+            "currency": "EUR",
+            "status": "Pending installment",
+            "amount": 5500,
+            "fee_amount": 152
+        }
+    ],
+    "card": {
+        "expiration_month": "08",
+        "expiration_year": "2016",
+        "last_four": "0003",
+        "type": "Visa",
+        "holder_name": "John Doe",
+        "supports_installments": true,
+        "max_installments": 3
+    }
+}
+```
+
+
+```php
+<?php
+stdClass Object
+(
+    [token] => pmt_hRwmZ8lrxub8dEVTsWfla9c5
+    [date_created] => 2015-10-08T17:01:21+0300
+    [description] => 
+    [currency] => EUR
+    [status] => Captured
+    [amount] => 11000
+    [refund_amount] => 0
+    [fee_amount] => 304
+    [payee_email] => 
+    [payee_phone] => 
+    [refunded] => 
+    [refunds] => Array
+        (
+        )
+
+    [installments_count] => 2
+    [installments] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [token] => pmt_a39thWxpgOQ6oT9qfsnHmgMn
+                    [date_created] => 2015-10-08T17:01:21+0300
+                    [due_date] => 2015-10-09T21:00:00+0300
+                    [currency] => EUR
+                    [status] => Pending installment
+                    [amount] => 5500
+                    [fee_amount] => 152
+                )
+
+            [1] => stdClass Object
+                (
+                    [token] => pmt_EJ4DmmSHP2hiCCiRgDtqOi3i
+                    [date_created] => 2015-10-08T17:01:21+0300
+                    [due_date] => 2015-11-09T21:00:00+0200
+                    [currency] => EUR
+                    [status] => Pending installment
+                    [amount] => 5500
+                    [fee_amount] => 152
+                )
+
+        )
+
+    [card] => stdClass Object
+        (
+            [expiration_month] => 08
+            [expiration_year] => 2016
+            [last_four] => 0003
+            [type] => Visa
+            [holder_name] => John Doe
+            [supports_installments] => 1
+            [max_installments] => 3
+        )
+
+)
+```
+
 
    &nbsp;       |     &nbsp;
 --------|--------------------------------
