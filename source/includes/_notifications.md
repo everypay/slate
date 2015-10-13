@@ -54,6 +54,7 @@ $payment = PaymentNotification::create($params);
     "date_created": "2015-10-11T23:14:25+0300",
     "description": "Payment for item #450",
     "amount": 4500,
+    "payee_name": "John Doe",
     "payee_email": "john.doe@themail.com",
     "payee_phone": "2106969169",
     "expiration_date": "2015-10-19T15:52:00+0300",
@@ -71,6 +72,7 @@ stdClass Object
     [date_created] => 2015-10-11T23:14:25+0300
     [description] => Payment for item #450
     [amount] => 4500
+    [payee_name] => John Doe
     [payee_email] => john.doe@themail.com
     [payee_phone] => 2106969169
     [expiration_date] => 2015-10-19T15:52:00+0300
@@ -98,5 +100,5 @@ payee_email | Ναι | string(100) | H διεύθυνση email του πελά�
 payee_phone | Ναι | integer(10) | Ο αριθμός τηλεφώνου του πελάτη που καλείται να πραγματοποιήσει την πληρωμή .
 amount | Ναι | integer | Το ποσό της συναλλαγής σε cents (χωρίς σημεία στίξης π.χ. 1099 αντί 10,99).
 description | Ναι | string(255) | Μία σύντομη περιγραφή της επεκείμενης πληρωμής στην οποία αναφέρεται αυτή η ειδοποίηση.
-expiration_date | Όχι | 'Y-m-d H:i:s' | Η ημερομηνία μέχρι και την οποία είναι έγκυρη αυτή η ειδοποίηση πληρωμής (όχι λιγότερο από 24 ώρες από την δημιουργία της ειδοποίησης).
+expiration_date | Όχι | DateTime::ISO8601 | Η ημερομηνία μέχρι και την οποία είναι έγκυρη αυτή η ειδοποίηση πληρωμής (όχι λιγότερο από 24 ώρες από την δημιουργία της ειδοποίησης). Παράδειγμα: "2015-10-18T15:52:00+0300"
 locale | Όχι | string(2) | Η γλώσσα στην οποία θα σταλεί το email ειδοποίησης στον πελάτη.
