@@ -905,6 +905,316 @@ currency | Όχι | string(3) | Το νόμισμα της συναλλαγής 
 description | Όχι| string(255) | Μία σύντομη περιγραφή.
 installments | Όχι | integer | Ο αριθμός των δόσεων που αιτείται ο ιδιοκτήτης της κάρτας.
 
+
+## Πληρωμή και δημιουργία Πελάτη με χρέωση Κάρτας
+
+
+>Πληρωμή και δημιουργία Πελάτη με χρέωση κάρτας, με το ιδιωτικό κλειδί.
+
+
+```shell
+curl https://api.everypay.gr/payments
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+  -d card_number=4111111111111111  
+  -d expiration_year=2016
+  -d expiration_month=01
+  -d cvv=334
+  -d amount=1099
+  -d currency=eur
+  -d description="Order #400"
+  -d holder_name="John Doe"
+  -d create_customer=1
+```
+
+
+```php
+<?php
+require_once '../autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Payment;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$params = array(
+    'card_number' => '4111111111111111',
+    'expiration_year' => '2016',
+    'expiration_month' => '01',
+    'cvv' => '334',
+    'amount' => 1099,
+    'currency' => 'eur',
+    'description' => 'Order #400',
+    'holder_name'=>'John Doe'
+    'create_customer' => '1'
+);
+
+$payment = Payment::create($params);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "token": "pmt_vd8rO6uDpnJ1MWWKyMU0gXp4",
+    "date_created": "2015-11-05T12:38:04+0200",
+    "description": "Order #400",
+    "currency": "EUR",
+    "status": "Captured",
+    "amount": 1099,
+    "refund_amount": 0,
+    "fee_amount": 34,
+    "payee_email": null,
+    "payee_phone": null,
+    "refunded": false,
+    "refunds": [],
+    "installments_count": 0,
+    "installments": [],
+    "customer": {
+        "description": null,
+        "email": null,
+        "date_created": "2015-11-05T12:38:04+0200",
+        "full_name": "John Doe",
+        "token": "cus_qxVtpVXe1VrHdcEzSqaz9KwW",
+        "is_active": true,
+        "date_modified": "2015-11-05T12:38:04+0200",
+        "card": {
+            "expiration_month": "01",
+            "expiration_year": "2016",
+            "last_four": "1111",
+            "type": "Visa",
+            "holder_name": "John Doe",
+            "supports_installments": false,
+            "max_installments": 0
+        }
+    }
+}
+```
+
+
+```php
+<?php
+stdClass Object
+(
+    [token] => pmt_vd8rO6uDpnJ1MWWKyMU0gXp4
+    [date_created] => 2015-11-05T12:38:04+0200
+    [description] => Order #400
+    [currency] => EUR
+    [status] => Captured
+    [amount] => 1099
+    [refund_amount] => 0
+    [fee_amount] => 34
+    [payee_email] => 
+    [payee_phone] => 
+    [refunded] => 
+    [refunds] => Array
+        (
+        )
+
+    [installments_count] => 0
+    [installments] => Array
+        (
+        )
+
+    [customer] => stdClass Object
+        (
+            [description] => 
+            [email] => 
+            [date_created] => 2015-11-05T12:38:04+0200
+            [full_name] => John Doe
+            [token] => cus_qxVtpVXe1VrHdcEzSqaz9KwW
+            [is_active] => 1
+            [date_modified] => 2015-11-05T12:38:04+0200
+            [card] => stdClass Object
+                (
+                    [expiration_month] => 01
+                    [expiration_year] => 2016
+                    [last_four] => 1111
+                    [type] => Visa
+                    [holder_name] => John Doe
+                    [supports_installments] => 
+                    [max_installments] => 0
+                )
+
+        )
+
+)
+
+```
+
+   &nbsp;       |     &nbsp;
+--------|--------------------------------
+**URL** |  https://api.everypay.gr/payments
+**Μέθοδος** | POST
+**Περιγραφή** | Εκτελεί χρέωση χρησιμοποιώντας τα δηλωθέντα στοιχεία μιας κάρτας και αυτόματα δημιουργείται και αποθηκεύεται ένας [Πελάτης](#Πελάτες) με αυτά τα στοιχεία κάρτας.
+
+
+**Ορίσματα** 
+
+
+**Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
+------|-------------|----------|----------
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+card_number | Ναι | integer(16) | O αριθμός της κάρτας.
+holder_name | Ναι | string(255) | To όνομα κατόχου της κάρτας.
+expiration_year | Ναι | integer(4) | Έτος λήξης της κάρτας (4 ψηφία).
+expiration_month | Ναι | integer(2) |Μήνας λήξης της κάρτας (2 ψηφία).
+cvv | Ναι | integer(3) | Ο τριψήφιος κωδικός ασφαλείας στο πίσω μέρος της κάρτας.
+amount | Ναι | integer | Το ποσό της συναλλαγής σε cents (χωρίς σημεία στίξης π.χ. 1099 αντί 10,99).
+currency | Όχι | string(3) | Το νόμισμα της συναλλαγής (EUR)
+description | Όχι | string(255) | Μία σύντομη περιγραφή.
+installments | Όχι | integer | Ο αριθμός των δόσεων που αιτείται ο ιδιοκτήτης της κάρτας.
+create_customer | Όχι | boolean | 1: ολοκληρώνεται κανονικά η πληρωμή και ταυτόχρονα δημιουργείται πελάτης με τα δηλωθέντα στοιχεία κάρτας. <br/>0: (προεπιλογή) ολοκληρώνεται κανονικά η πληρωμή χωρίς δημιουργία πελάτη.
+
+
+##Πληρωμή και δημιουργία Πελάτη με χρήση Token Κάρτας
+
+
+>Πληρωμή και δημιουργία Πελάτη με χρήση Token Κάρτας, με το ιδιωτικό κλειδί.
+
+
+```shell
+curl https://api.everypay.gr/payments
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+  -d token=ctn_7hPmP8611pqcTkVfDuCEuC2Y
+  -d amount=1099
+  -d description="payment for item #22"
+  -d create_customer=1
+```
+
+```php
+<?php
+require_once '../autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Payment;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$params = array(
+    'token' => 'ctn_7hPmP8611pqcTkVfDuCEuC2Y',
+    'amount' => 1099,
+    'description' => 'payment for item #22',
+    'create_customer' => 1
+);
+
+$payment = Payment::create($params);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "token": "pmt_vd8rO6uDpnJ1MWWKyMU0gXp4",
+    "date_created": "2015-11-05T12:38:04+0200",
+    "description": "payment for item #22",
+    "currency": "EUR",
+    "status": "Captured",
+    "amount": 1099,
+    "refund_amount": 0,
+    "fee_amount": 34,
+    "payee_email": null,
+    "payee_phone": null,
+    "refunded": false,
+    "refunds": [],
+    "installments_count": 0,
+    "installments": [],
+    "customer": {
+        "description": null,
+        "email": null,
+        "date_created": "2015-11-05T12:38:04+0200",
+        "full_name": "John Doe",
+        "token": "cus_qxVtpVXe1VrHdcEzSqaz9KwW",
+        "is_active": true,
+        "date_modified": "2015-11-05T12:38:04+0200",
+        "card": {
+            "expiration_month": "01",
+            "expiration_year": "2016",
+            "last_four": "1111",
+            "type": "Visa",
+            "holder_name": "John Doe",
+            "supports_installments": false,
+            "max_installments": 0
+        }
+    }
+}
+```
+
+
+```php
+<?php
+stdClass Object
+(
+    [token] => pmt_vd8rO6uDpnJ1MWWKyMU0gXp4
+    [date_created] => 2015-11-05T12:38:04+0200
+    [description] => payment for item #22
+    [currency] => EUR
+    [status] => Captured
+    [amount] => 1099
+    [refund_amount] => 0
+    [fee_amount] => 34
+    [payee_email] => 
+    [payee_phone] => 
+    [refunded] => 
+    [refunds] => Array
+        (
+        )
+
+    [installments_count] => 0
+    [installments] => Array
+        (
+        )
+
+    [customer] => stdClass Object
+        (
+            [description] => 
+            [email] => 
+            [date_created] => 2015-11-05T12:38:04+0200
+            [full_name] => John Doe
+            [token] => cus_qxVtpVXe1VrHdcEzSqaz9KwW
+            [is_active] => 1
+            [date_modified] => 2015-11-05T12:38:04+0200
+            [card] => stdClass Object
+                (
+                    [expiration_month] => 01
+                    [expiration_year] => 2016
+                    [last_four] => 1111
+                    [type] => Visa
+                    [holder_name] => John Doe
+                    [supports_installments] => 
+                    [max_installments] => 0
+                )
+
+        )
+
+)
+
+```
+
+   &nbsp;       |     &nbsp;
+--------|--------------------------------
+**URL** |  https://api.everypay.gr/payments
+**Μέθοδος** | POST
+**Περιγραφή** | Εκτελεί χρέωση χρησιμοποιώντας ένα προδημιουργημένο και αχρησιμοποίητο [Token](#Δημιουργία-Τoken) κάρτας και αυτόματα δημιουργείται και αποθηκεύεται ένας Πελάτης με τα στοιχεία της κάρτας στα οποία αντιστοιχεί το δηλωθέν Token κάρτας.
+
+
+**Ορίσματα** 
+
+
+**Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
+------|-------------|----------|----------
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+token | Ναι | string(28) | To id του token κάρτας το οποίο μας ενδιαφέρει.
+amount | Ναι | integer | Το ποσό της συναλλαγής σε cents (χωρίς σημεία στίξης π.χ. 1099 αντί 10,99).
+currency | Όχι | string(3) | Το νόμισμα της συναλλαγής (EUR)
+description | Όχι| string(255) | Μία σύντομη περιγραφή.
+installments | Όχι | integer | Ο αριθμός των δόσεων που αιτείται ο ιδιοκτήτης της κάρτας.
+create_customer | Όχι | boolean | 1: ολοκληρώνεται κανονικά η πληρωμή και ταυτόχρονα δημιουργείται πελάτης με το δηλωθέν Token κάρτας. <br/>0: (προεπιλογή) ολοκληρώνεται κανονικά η πληρωμή χωρίς δημιουργία πελάτη.
+
+
 ## Δέσμευση πληρωμής με χρέωση Κάρτας
 
 
