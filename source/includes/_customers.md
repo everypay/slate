@@ -411,7 +411,7 @@ use Everypay\Customer;
 
 Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
 
-$token => 'cus_b7QO01Ie4csrDAkRjXijK7aM';
+$token = 'cus_b7QO01Ie4csrDAkRjXijK7aM';
 
 $customer = Customer::retrieve($token);
 ```
