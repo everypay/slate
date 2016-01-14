@@ -2,7 +2,7 @@
 #mike.plexousakis@gmail.com
 my $proc = "bundle";
 my $params = "exec middleman server";
-my $masterProc = "ruby1.9.1";
+my $masterProc = "ruby";
 #my $pgrep = "pgrep";
 my $pidof = "pidof";
 my $kill = "kill";

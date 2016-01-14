@@ -675,7 +675,7 @@ SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνετ
 
 ```shell
 curl https://api.everypay.gr/customers?count=2&offset=1
-  -D GET
+  -X GET
   -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
 ```
 
