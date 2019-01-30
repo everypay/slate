@@ -567,12 +567,179 @@ stdClass Object
 )
 ```
 
+## Δημιουργία νέας κάρτας σε Πελάτη
 
+
+> Επεξεργασία (ενημέρωση στοιχείων) πελάτη
+
+
+```shell
+curl https://api.everypay.gr/customers/cus_b7QO01Ie4csrDAkRjXijK7aM  
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R:
+  -X PUT
+  -d token= "ctn_BPsE2ynMD2URAFlMRb90NiXk"
+```
+
+
+```php
+<?php
+require_once '../autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Customer;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$token = 'cus_b7QO01Ie4csrDAkRjXijK7aM';
+
+$params = array(
+    'token' => 'ctn_BPsE2ynMD2URAFlMRb90NiXk',
+    
+);
+
+$customer = Customer::update($token, $params);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "description": "Club Member",
+    "email": "cofounder@themail.com",
+    "date_created": "2019-01-27T19:49:25+0200",
+    "full_name": null,
+    "token": "cus_595ilEuWYWXIORjJ3AEMyXuG",
+    "is_active": true,
+    "date_modified": "2019-01-28T16:12:56+0200",
+    "cvv_required": true,
+    "card": {
+        "token": "crd_FIAoNSiXlwpnSJrfojsrPdH4",
+        "expiration_month": "07",
+        "expiration_year": "2023",
+        "bin": "450383",
+        "last_four": "1097",
+        "type": "Visa",
+        "holder_name": "John",
+        "supports_installments": false,
+        "max_installments": 0,
+        "status": "valid",
+        "friendly_name": "Visa •••• 1097 (07/2023)",
+        "cvv_required": false,
+        "tds": {
+            "enrolled": null,
+            "eci_flag": null,
+            "auth_code": null,
+            "auth_desc": null
+        }
+    },
+    "cards": {
+        "count": 3,
+        "data": [
+            {
+                "token": "crd_HvtqkkrrX2n6LBKr0xv7Rgx1",
+                "expiration_month": "12",
+                "expiration_year": "2020",
+                "bin": "498512",
+                "last_four": "3085",
+                "type": "Visa",
+                "holder_name": "John",
+                "supports_installments": false,
+                "max_installments": 0,
+                "status": "valid",
+                "friendly_name": "Visa •••• 3085 (12/2020)",
+                "cvv_required": false,
+                "tds": {
+                    "enrolled": null,
+                    "eci_flag": null,
+                    "auth_code": null,
+                    "auth_desc": null
+                }
+            },
+            {
+                "token": "crd_FIAoNSiXlwpnSJrfojsrPdH4",
+                "expiration_month": "07",
+                "expiration_year": "2023",
+                "bin": "450383",
+                "last_four": "1097",
+                "type": "Visa",
+                "holder_name": "John",
+                "supports_installments": false,
+                "max_installments": 0,
+                "status": "valid",
+                "friendly_name": "Visa •••• 1097 (07/2023)",
+                "cvv_required": false,
+                "tds": {
+                    "enrolled": null,
+                    "eci_flag": null,
+                    "auth_code": null,
+                    "auth_desc": null
+                }
+            },
+            {
+                "token": "crd_3fkI1d1b5OM2nEjpPIceWV0K",
+                "expiration_month": "12",
+                "expiration_year": "2019",
+                "bin": "411111",
+                "last_four": "1111",
+                "type": "Visa",
+                "holder_name": "John Doe",
+                "supports_installments": false,
+                "max_installments": 0,
+                "status": "valid",
+                "friendly_name": "Visa •••• 1111 (12/2019)",
+                "cvv_required": false,
+                "tds": {
+                    "enrolled": null,
+                    "eci_flag": null,
+                    "auth_code": null,
+                    "auth_desc": null
+                }
+            }
+        ]
+    }
+}
+```
+
+```php
+<?php
+stdClass Object
+(
+    [description] => Club Member
+    [email] => cofounder@themail.com
+    [date_created] => 2019-01-27T19:49:25+0200
+    [full_name] => null
+    [token] => cus_595ilEuWYWXIORjJ3AEMyXuG
+    [is_active] => true
+    [date_modified] => 2019-01-28T16:12:56+0200
+    [card] => stdClass Object
+        ( 
+            [token]=>crd_FIAoNSiXlwpnSJrfojsrPdH4
+            [expiration_month] => 12
+            [expiration_year] => 2020
+            [last_four] => 2020
+            [type] => Visa
+            [holder_name] => John
+            [supports_installments] => false
+            [max_installments] => 0
+            [friendly_name] => Visa •••• 3085 (12/2020)
+            [cvv_required] => false
+              [tds] => stdClass Object
+                 ([enrolled] => null
+                 [eci_flag] => null
+                 [auth_code] => null
+                 [auth_desc] => null
+                 )
+        )
+
+)
+```
    &nbsp;       |     &nbsp;
 --------|--------------------------------
 **URL** | https://api.everypay.gr/customers/{CUSTOMER_ID}
 **Μέθοδος** | PUT
-**Περιγραφή** | Επεξεργασία των στοιχείων ενός πελάτη.
+**Περιγραφή** | Δημιουργεί νέα κάρτα σε Πελάτη
 
 
 **Ορίσματα** 
@@ -581,14 +748,289 @@ stdClass Object
 **Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
 ------|-------------|----------|----------
 SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
-card_number | Όχι | integer(16) | O αριθμός της κάρτας.
-holder_name | Όχι / Ναι | string(255) |	To όνομα κατόχου της κάρτας. Υποχρεωτικό στην περίπτωση που αλλάζετε και το card_number
-expiration_year | Όχι / Ναι | integer(4) |	Έτος λήξης της κάρτας (4 ψηφία). Υποχρεωτικό στην περίπτωση που αλλάζετε και το card_number.
-expiration_month | Όχι / Ναι | integer(2) |	Μήνας λήξης της κάρτας (2 ψηφία). Υποχρεωτικό στην περίπτωση που αλλάζετε και το card_number.
-cvv | Όχι / Ναι | integer(3) | Ο τριψήφιος κωδικός ασφαλείας στο πίσω μέρος της κάρτας. Υποχρεωτικό στην περίπτωση που αλλάζετε και το card_number.
-description | Όχι | string(255) | Μία σύντομη περιγραφή.
-full_name | Όχι | string(255) | Το όνομα του πελάτη.
-email | Όχι | string(100) | H διεύθυνση email του πελάτη.
+{CUSTOMER_ID} | Ναι | string(28) | To id του πελάτη μεταδίδεται απευθείας από τη διεύθυνση URL.
+token | Ναι | string(28) | To Token (αχρησιμοποίητο) που έχουμε δημιουργήσει για μία κάρτα.
+
+## Αλλαγή προεπιλεγμένης κάρτας
+
+
+> Επεξεργασία (ενημέρωση στοιχείων) πελάτη
+
+
+```shell
+curl https://api.everypay.gr/customers/cus_u47t759BnBYsCzASegVT605Q  
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAholU3R:
+  -X PUT
+  -d card= "crd_0sqmEk3BSte2tYIiqqBVix02"
+  -d default_card= "1"
+```
+
+
+```php
+<?php
+require_once '../autoload.php';
+
+use Everypay\Everypay;
+use Everypay\Customer;
+
+Everypay::setApiKey('sk_PqSohnrYrRI1GUKOZvDkK5VVWAhnlU3R');
+
+$token = 'cus_b7QO01Ie4csrDAkRjXijK7aM';
+
+$params = array(
+    'card' => 'crd_0sqmEk3BSte2tYIiqqBVix02',
+    'default_card' => '1',
+);
+
+$customer = Customer::update($token, $params);
+```
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "description": "Club Member",
+    "email": "cofounder@themail.com",
+    "date_created": "2019-01-27T19:49:25+0200",
+    "full_name": null,
+    "token": "cus_u47t759BnBYsCzASegVT605Q",
+    "is_active": true,
+    "date_modified": "2019-01-28T16:12:56+0200",
+    "cvv_required": true,
+    "card": {
+        "token": "crd_FIAoNSiXlwpnSJrfojsrPdH4",
+        "expiration_month": "11",
+        "expiration_year": "2025",
+        "bin": "450383",
+        "last_four": "1097",
+        "type": "Visa",
+        "holder_name": "John",
+        "supports_installments": false,
+        "max_installments": 0,
+        "status": "valid",
+        "friendly_name": "Visa •••• 1097 (07/2023)",
+        "cvv_required": false,
+        "tds": {
+            "enrolled": null,
+            "eci_flag": null,
+            "auth_code": null,
+            "auth_desc": null
+        }
+    },
+    "cards": {
+        "count": 3,
+        "data": [
+            {
+                "token": "crd_HvtqkkrrX2n6LBKr0xv7Rgx1",
+                "expiration_month": "12",
+                "expiration_year": "2020",
+                "bin": "498512",
+                "last_four": "3085",
+                "type": "Visa",
+                "holder_name": "John",
+                "supports_installments": false,
+                "max_installments": 0,
+                "status": "valid",
+                "friendly_name": "Visa •••• 3085 (12/2020)",
+                "cvv_required": false,
+                "tds": {
+                    "enrolled": null,
+                    "eci_flag": null,
+                    "auth_code": null,
+                    "auth_desc": null
+                }
+            },
+            {
+                "token": "crd_FIAoNSiXlwpnSJrfojsrPdH4",
+                "expiration_month": "07",
+                "expiration_year": "2023",
+                "bin": "450383",
+                "last_four": "1097",
+                "type": "Visa",
+                "holder_name": "John",
+                "supports_installments": false,
+                "max_installments": 0,
+                "status": "valid",
+                "friendly_name": "Visa •••• 1097 (07/2023)",
+                "cvv_required": false,
+                "tds": {
+                    "enrolled": null,
+                    "eci_flag": null,
+                    "auth_code": null,
+                    "auth_desc": null
+                }
+            },
+            {
+                "token": "crd_3fkI1d1b5OM2nEjpPIceWV0K",
+                "expiration_month": "12",
+                "expiration_year": "2019",
+                "bin": "411111",
+                "last_four": "1111",
+                "type": "Visa",
+                "holder_name": "John Doe",
+                "supports_installments": false,
+                "max_installments": 0,
+                "status": "valid",
+                "friendly_name": "Visa •••• 1111 (12/2019)",
+                "cvv_required": false,
+                "tds": {
+                    "enrolled": null,
+                    "eci_flag": null,
+                    "auth_code": null,
+                    "auth_desc": null
+                }
+            }
+        ]
+    }
+}
+```
+
+```php
+<?php
+stdClass Object
+(
+    [description] => Club Member
+    [email] => cofounder@themail.com
+    [date_created] => 2019-01-27T19:49:25+0200
+    [full_name] => null
+    [token] => cus_595ilEuWYWXIORjJ3AEMyXuG
+    [is_active] => true
+    [date_modified] => 2019-01-28T16:12:56+0200
+    [card] => stdClass Object
+        ( 
+            [token]=>crd_FIAoNSiXlwpnSJrfojsrPdH4
+            [expiration_month] => 12
+            [expiration_year] => 2020
+            [last_four] => 2020
+            [type] => Visa
+            [holder_name] => John
+            [supports_installments] => false
+            [max_installments] => 0
+            [friendly_name] => Visa •••• 3085 (12/2020)
+            [cvv_required] => false
+              [tds] => stdClass Object
+                 ([enrolled] => null
+                 [eci_flag] => null
+                 [auth_code] => null
+                 [auth_desc] => null
+                 )
+        )
+
+)
+```
+   &nbsp;       |     &nbsp;
+--------|--------------------------------
+**URL** | https://api.everypay.gr/customers/{CUSTOMER_ID}
+**Μέθοδος** | PUT
+**Περιγραφή** | Αλλαγή προεπιλεγμένης κάρτας σε Πελάτη 
+
+
+**Ορίσματα** 
+
+
+**Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
+------|-------------|----------|----------
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
+{CUSTOMER_ID} | Ναι | string(28) | To id του πελάτη μεταδίδεται απευθείας από τη διεύθυνση URL.
+card | Ναι | string(28) | To Token (αχρησιμοποίητο) που έχουμε δημιουργήσει για μία κάρτα.
+default_card | Ναι | string(3) | 1:ορίζεται ως προεπιλεγμένη.
+
+
+## Διαγραφή κάρτας Πελάτη
+
+
+> Επεξεργασία (ενημέρωση στοιχείων) πελάτη
+
+
+```shell
+curl https://api.everypay.gr/customers/{CUSTOMER ID}}/card/{CARD TOKEN}
+  -u sk_PqSohnrYrRI1GUKOZvDkK5VVWAholU3R:
+  -X DELETE
+  
+```
+
+
+
+
+>Απάντηση σε JSON για curl ή Object για php
+
+
+```shell
+{
+    "description": "Club Member",
+    "email": "cofounder@themail.com",
+    "date_created": "2019-01-27T19:49:25+0200",
+    "full_name": null,
+    "token": "cus_u47t759BnBYsCzASegVT605Q",
+    "is_active": true,
+    "date_modified": "2019-01-28T16:12:56+0200",
+    "cvv_required": true,
+    "card": {
+        "token": "crd_FIAoNSiXlwpnSJrfojsrPdH4",
+        "expiration_month": "11",
+        "expiration_year": "2025",
+        "bin": "450383",
+        "last_four": "1097",
+        "type": "Visa",
+        "holder_name": "John",
+        "supports_installments": false,
+        "max_installments": 0,
+        "status": "valid",
+        "friendly_name": "Visa •••• 1097 (07/2023)",
+        "cvv_required": false,
+        "tds": {
+            "enrolled": null,
+            "eci_flag": null,
+            "auth_code": null,
+            "auth_desc": null
+        }
+    },
+    "cards": {
+        "count": 1,
+        "data": [
+            {
+                "token": "crd_HvtqkkrrX2n6LBKr0xv7Rgx1",
+                "expiration_month": "12",
+                "expiration_year": "2020",
+                "bin": "498512",
+                "last_four": "3085",
+                "type": "Visa",
+                "holder_name": "John",
+                "supports_installments": false,
+                "max_installments": 0,
+                "status": "valid",
+                "friendly_name": "Visa •••• 3085 (12/2020)",
+                "cvv_required": false,
+                "tds": {
+                    "enrolled": null,
+                    "eci_flag": null,
+                    "auth_code": null,
+                    "auth_desc": null
+                }
+            },
+            
+            
+            }
+        ]
+    }
+}
+
+```
+   &nbsp;       |     &nbsp;
+--------|--------------------------------
+**URL** | https://api.everypay.gr/customers/{CUSTOMER_ID}/card/{CARD TOKEN}
+**Μέθοδος** | DELETE
+**Περιγραφή** | Διαγράφη κάρτας απο Πελάτη.
+
+
+**Ορίσματα** 
+
+
+**Πεδίο** | **Υποχρεωτικό** | **Τύπος** | **Περιγραφή**
+------|-------------|----------|----------
+SECRET KEY | Ναι | string(35) | Το ιδιωτικό κλειδί δίνεται σαν username για HTTP πρόσβαση.
 {CUSTOMER_ID} | Ναι | string(28) | To id του πελάτη μεταδίδεται απευθείας από τη διεύθυνση URL.
 
 
